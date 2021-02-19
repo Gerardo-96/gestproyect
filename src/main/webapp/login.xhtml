@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Login Page</title>
+	<link type="text/css"
+		href="${facesContext.externalContext.requestContextPath}/resources/css/style.css"
+		rel="stylesheet" />
+	<link type="image/x-icon"
+		href="${facesContext.externalContext.requestContextPath}/resources/images/favicon.ico"
+		rel="shortcut icon" />
+</h:head>
+
+<h:body>
+	<div id="message">
+	<p:ajaxStatus style="display:block;  margin-top:.5em;">
+		<f:facet name="default">
+			<h:outputText value="Please enter your credentials." />
+		</f:facet>
+		<f:facet name="start">
+			<h:outputText value="Please wait #{loginBean.userName}, Connecting database..." />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="Please try again #{loginBean.userName}, Database/Login error!!" />
+		</f:facet>
+	</p:ajaxStatus>
+	</div>	
+
+	<h:form id="loginForm" >
+		<p:growl id="msg" showDetail="true" life="4000" />
+		<p:panel id="loginPnl" header="Login"
+			style="width: 350px; margin: 0 auto;">
+			<h:panelGrid id="loginPanel" columns="2" cellpadding="0">
+				<h:outputText value="Usuario" />
+				<p:inputText id="username" value="#{loginBean.userName}"></p:inputText>
+				<p:spacer /><p:spacer />	
+				<h:outputText value="Contraseña" />
+				<p:password id="password" value="#{loginBean.password}"
+					feedback="false"></p:password>
+				<p:message for="password"></p:message>
+			</h:panelGrid>
+			<h:panelGrid columns="1" cellpadding="10" width="100%">
+				<p:commandButton id="loginButton" action="#{loginBean.loginProject}"
+					value="Acceder" update="loginForm" ajax="true" style="float: right;">
+				</p:commandButton>
+			</h:panelGrid>
+		</p:panel>
+		<p:blockUI block="loginPnl" trigger="loginButton" >
+			<p:graphicImage value="resources/images/loader.gif" />
+		</p:blockUI>
+	</h:form>
+</h:body>
+</html>
