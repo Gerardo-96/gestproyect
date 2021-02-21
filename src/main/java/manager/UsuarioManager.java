@@ -15,17 +15,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Usuario;
 import utils.DBCon;
+import utils.Encript;
 
 /**
  *
  * @author usuario
  */
 public class UsuarioManager {
+        Encript encript = new Encript();
 
     public boolean add(Usuario usuario) throws SQLException {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
+        
         String sql = "INSERT INTO USUARIO(USERNAME,NOMBRE,APELLIDO,FECHA_CREACION,PASSWORD, ID_PERFIL) "
                 + "VALUES(?,?,?,?,?,?)";
         try {
@@ -35,7 +38,7 @@ public class UsuarioManager {
             pst.setString(2, usuario.getNombre());
             pst.setString(3, usuario.getApellido());
             pst.setDate(4, usuario.getFechaCreacion());
-            pst.setString(5, usuario.getPassword());
+            pst.setString(5, encript.encriptar(usuario.getPassword()));
             pst.setInt(6, usuario.getIdPerfil());
             pst.execute();
             return true;
@@ -59,7 +62,7 @@ public class UsuarioManager {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, userName.toUpperCase());
-            pst.setString(2, password);
+            pst.setString(2, encript.encriptar(password));
             ResultSet rs = pst.executeQuery();
             return rs.next();
         } catch (SQLException ex) {
