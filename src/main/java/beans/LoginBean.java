@@ -17,7 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import manager.LoginManager;
+import manager.UsuarioManager;
 import utils.Util;
 
 @ManagedBean(name = "loginBean")
@@ -28,10 +28,8 @@ public class LoginBean implements Serializable {
     private String password;
     private String message;
     private String userName;
-    private LoginManager loginManager;
 
     public LoginBean() {
-        loginManager = new LoginManager();
     }
 
     public String getMessage() {
@@ -61,13 +59,14 @@ public class LoginBean implements Serializable {
     public String loginProject() {
         try {
             System.out.println("a");
-            boolean result = loginManager.login(userName, password);
+            UsuarioManager usuarioMng = new UsuarioManager();
+            boolean result = usuarioMng.authenticate(userName, password);
             if (result) {
 
                 // get Http Session and store username
                 HttpSession session = Util.getSession();
                 session.setAttribute("userName", userName);
-                return "index";
+                return "inicio";
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                         "Login Invalido!",
