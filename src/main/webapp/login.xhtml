@@ -9,7 +9,7 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Login Page</title>
+	<title>GestPro</title>
 	<link type="text/css"
 		href="${facesContext.externalContext.requestContextPath}/resources/css/style.css"
 		rel="stylesheet" />
@@ -21,15 +21,6 @@
 <h:body>
 	<div id="message">
 	<p:ajaxStatus style="display:block;  margin-top:.5em;">
-		<f:facet name="default">
-			<h:outputText value="Please enter your credentials." />
-		</f:facet>
-		<f:facet name="start">
-			<h:outputText value="Please wait #{loginBean.userName}, Connecting database..." />
-		</f:facet>
-		<f:facet name="complete">
-			<h:outputText value="Please try again #{loginBean.userName}, Database/Login error!!" />
-		</f:facet>
 	</p:ajaxStatus>
 	</div>	
 

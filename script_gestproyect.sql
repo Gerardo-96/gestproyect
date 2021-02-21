@@ -1,4 +1,8 @@
-CREATE DATABASE gestprodb
+CREATE USER GESTPRO WITH PASSWORD 'GestPro2021';
+
+CREATE USER gestproadmin WITH password 'AdminGestPr0#';
+
+CREATE DATABASE GESTPRODB WITH OWNER GESTPRO;
 
 GRANT TEMPORARY, CONNECT ON DATABASE gestprodb TO PUBLIC;
 
@@ -23,6 +27,10 @@ CREATE SEQUENCE public.sc_id_usuario
     MAXVALUE 9223372036854775807
     CACHE 1;
 	
+ GRANT ALL PRIVILEGES ON TABLE usuario TO gestpro;
+ GRANT ALL PRIVILEGES ON SEQUENCE sc_id_usuario TO gestpro;
+
+
 CREATE FUNCTION public.id_usuario()
     RETURNS trigger
     LANGUAGE 'plpgsql'
@@ -42,5 +50,6 @@ CREATE TRIGGER trig_id_usuario
     FOR EACH ROW
     EXECUTE PROCEDURE public.id_usuario();
 	
+
 INSERT INTO usuario (username, nombre, apellido, password, id_perfil)
 VALUES ('admin', 'Administrador', ' ', 'is2021', 1);
