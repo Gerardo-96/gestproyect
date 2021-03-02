@@ -10,7 +10,10 @@ import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Usuario;
@@ -48,6 +51,37 @@ public class UsuarioManager {
             }
             return false;
         }
+    }
+    
+    
+    public List<Usuario> listAll() throws SQLException {
+        List<Usuario> listaUsuarios = new ArrayList();
+        //Usuario usuario = new Usuario();
+        Connection conn = null;
+        Statement stmt = null;
+        DBCon dbcon = new DBCon();
+        String sql = "SELECT USERNAME,NOMBRE,APELLIDO,FECHA_CREACION FROM USUARIO";
+        try {
+            conn = dbcon.getConnection();
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            
+           /* while (rs.next()) { //Este dejo comentado nomas, esta parte ya me perdi... 
+                                   // pero algo asi deberia ser, ya no puedo pensar
+                String user = rs.getString(1);
+                String nombre = rs.getString(2);
+                String apellido = rs.getString(3);
+                Date fechaCreacion = rs.getDate(4);
+                usuario = new Usuario(user, nombre, apellido, fechaCreacion);
+                listaUsuarios.add(usuario);
+            }*/
+        }catch(SQLException ex) {
+            Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listaUsuarios;
     }
     
     public boolean authenticate(String userName,String password)throws SQLException {
