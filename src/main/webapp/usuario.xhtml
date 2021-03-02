@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Usuario</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <h5 class="p-mt-0">Basic</h5>
+                <h:panelGrid columns="3" cellpadding="7">
+                    <p:outputLabel for="username" value="Usuario"/>
+                    <p:inputText id="username" value="#{UsuarioBean.usuario.userName}"/>
+                    <p:outputLabel for="nombre" value="Nombre"/>
+                    <p:inputText id="nombre" value="#{UsuarioBean.usuario.nombre}"/>
+                    <p:outputLabel for="apellido" value="Apellido"/>
+                    <p:inputText id="apellido" value="#{UsuarioBean.usuario.apellido}"/>
+                    <p:outputLabel for="contraseña" value="Contraseña"/>
+                    <p:inputText id="contraseña" value="#{UsuarioBean.usuario.password}"/>
+                </h:panelGrid>
+                <p:commandLink id="modificar" action="#{UsuarioBean.editarUsuario}" style="margin-right:20px;" ajax="false">
+                    <h:outputText value="Modificar"/>
+                </p:commandLink>
+                <p:commandLink id="eliminar" action="#{UsuarioBean.eliminarUsuario}" style="margin-right:20px;" ajax="false">
+                    <h:outputText value="Eliminar"/>
+                </p:commandLink>
+            </h:form>
+        </div>
+    </h:body>
+</html>

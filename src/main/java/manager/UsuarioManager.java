@@ -29,7 +29,7 @@ public class UsuarioManager {
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
         
-        String sql = "INSERT INTO USUARIO(USERNAME,NOMBRE,APELLIDO,FECHA_CREACION,PASSWORD, ID_PERFIL) "
+        String sql = "INSERT INTO USUARIO(USERNAME,NOMBRE,APELLIDO,FECHA_CREACION,PASSWORD) "
                 + "VALUES(?,?,?,?,?,?)";
         try {
             conn = dbcon.getConnection();
@@ -39,7 +39,6 @@ public class UsuarioManager {
             pst.setString(3, usuario.getApellido());
             pst.setDate(4, usuario.getFechaCreacion());
             pst.setString(5, encript.encriptar(usuario.getPassword()));
-            pst.setInt(6, usuario.getIdPerfil());
             pst.execute();
             return true;
         } catch (SQLException ex) {
@@ -55,8 +54,7 @@ public class UsuarioManager {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
-        String sql = "SELECT USERNAME FROM USUARIO WHERE USERNAME=?"
-                + "AND PASSWORD=?";
+        String sql = "SELECT * FROM ROLES_USUARIOS WHERE USUARIO=?";
 
         try {
             conn = dbcon.getConnection();

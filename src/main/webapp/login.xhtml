@@ -8,7 +8,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>GestPro</title>
 	<link type="text/css"
 		href="${facesContext.externalContext.requestContextPath}/resources/css/style.css"
@@ -30,15 +30,15 @@
 			style="width: 350px; margin: 0 auto;">
 			<h:panelGrid id="loginPanel" columns="2" cellpadding="0">
 				<h:outputText value="Usuario" />
-				<p:inputText id="username" value="#{loginBean.userName}"></p:inputText>
+				<p:inputText id="username" value="#{LoginBean.userName}"></p:inputText>
 				<p:spacer /><p:spacer />	
 				<h:outputText value="Contraseña" />
-				<p:password id="password" value="#{loginBean.password}"
+				<p:password id="password" value="#{LoginBean.password}"
 					feedback="false"></p:password>
 				<p:message for="password"></p:message>
 			</h:panelGrid>
 			<h:panelGrid columns="1" cellpadding="10" width="100%">
-				<p:commandButton id="loginButton" action="#{loginBean.loginProject}"
+				<p:commandButton id="loginButton" action="#{LoginBean.loginProject}"
 					value="Acceder" update="loginForm" ajax="true" style="float: right;">
 				</p:commandButton>
 			</h:panelGrid>

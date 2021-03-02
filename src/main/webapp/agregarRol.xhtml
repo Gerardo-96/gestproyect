@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Rol</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <h5 class="p-mt-0">Basic</h5>
+                <h:panelGrid columns="3" cellpadding="7">
+                    <p:outputLabel for="name" value="Codigo Rol"/>
+                    <p:inputText id="name" value="#{RolBean.rol.codigoRol}"/>
+                    <p:outputLabel for="name" value="Descripción"/>
+                    <p:inputText id="name" value="#{RolBean.rol.descripcion}"/>
+                </h:panelGrid>
+                <p:commandLink id="nonAjax" action="#{RolBean.agregar}" style="margin-right:20px;" ajax="false">
+                    <h:outputText value="Agregar"/>
+                </p:commandLink>            
+            </h:form>
+        </div>
+    </h:body>
+</html>

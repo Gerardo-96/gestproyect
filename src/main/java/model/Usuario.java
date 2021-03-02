@@ -36,8 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
     , @NamedQuery(name = "Usuario.findByApellido", query = "SELECT u FROM Usuario u WHERE u.apellido = :apellido")
     , @NamedQuery(name = "Usuario.findByFechaCreacion", query = "SELECT u FROM Usuario u WHERE u.fechaCreacion = :fechaCreacion")
-    , @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password")
-    , @NamedQuery(name = "Usuario.findByIdPerfil", query = "SELECT u FROM Usuario u WHERE u.idPerfil = :idPerfil")})
+    , @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -71,10 +70,6 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "password")
     private String password;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_perfil")
-    private int idPerfil;
 
     public Usuario() {
     }
@@ -83,13 +78,12 @@ public class Usuario implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public Usuario(String userName, String nombre, String apellido, Date fechaCreacion, String password, int idPerfil) {
+    public Usuario(String userName, String nombre, String apellido, Date fechaCreacion, String password) {
         this.userName = userName;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaCreacion = fechaCreacion;
         this.password = password;
-        this.idPerfil = idPerfil;
     }
 
     public Integer getIdUsuario() {
@@ -138,14 +132,6 @@ public class Usuario implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getIdPerfil() {
-        return idPerfil;
-    }
-
-    public void setIdPerfil(int idPerfil) {
-        this.idPerfil = idPerfil;
     }
 
     @Override
