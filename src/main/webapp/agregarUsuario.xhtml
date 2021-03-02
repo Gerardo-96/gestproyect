@@ -26,8 +26,6 @@ and open the template in the editor.
                     <p:inputText id="name" value="#{UsuarioBean.usuario.apellido}"/>
                     <p:outputLabel for="name" value="Contraseña"/>
                     <p:inputText id="name" value="#{UsuarioBean.usuario.password}"/>
-                    <p:outputLabel for="name" value="Confirmar Contraseña"/>
-                    <p:inputText id="name" value="#{UsuarioBean.confirmarPass}"/>
                 </h:panelGrid>
                 <p:commandLink id="nonAjax" action="#{UsuarioBean.agregar}" style="margin-right:20px;" ajax="false">
                     <h:outputText value="Agregar"/>
