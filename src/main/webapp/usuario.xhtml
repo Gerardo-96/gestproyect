@@ -24,8 +24,8 @@ and open the template in the editor.
                     <p:inputText id="nombre" value="#{UsuarioBean.usuario.nombre}"/>
                     <p:outputLabel for="apellido" value="Apellido"/>
                     <p:inputText id="apellido" value="#{UsuarioBean.usuario.apellido}"/>
-                    <p:outputLabel for="contraseña" value="Contraseña"/>
-                    <p:inputText id="contraseña" value="#{UsuarioBean.usuario.password}"/>
+                    <p:outputLabel for="fechaCreacion" value="FechaCreacion"/>
+                    <p:inputText id="fechaCreacion" value="#{UsuarioBean.usuario.fechaCreacion}"/>
                 </h:panelGrid>
                 <p:commandLink id="modificar" action="#{UsuarioBean.editarUsuario}" style="margin-right:20px;" ajax="false">
                     <h:outputText value="Modificar"/>

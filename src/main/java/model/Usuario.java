@@ -7,6 +7,7 @@ package model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -70,7 +71,7 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "password")
     private String password;
-
+//    private List<Rol> roles;
     public Usuario() {
     }
 

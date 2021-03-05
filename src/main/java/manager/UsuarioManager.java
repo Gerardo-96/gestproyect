@@ -33,15 +33,62 @@ public class UsuarioManager {
         DBCon dbcon = new DBCon();
         
         String sql = "INSERT INTO USUARIO(USERNAME,NOMBRE,APELLIDO,FECHA_CREACION,PASSWORD) "
-                + "VALUES(?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?)";
         try {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, (usuario.getUserName().toUpperCase()));
             pst.setString(2, usuario.getNombre());
             pst.setString(3, usuario.getApellido());
-            pst.setDate(4, usuario.getFechaCreacion());
+            pst.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
             pst.setString(5, encript.encriptar(usuario.getPassword()));
+            pst.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                conn.close();
+            }
+            return false;
+        }
+    }
+    
+    public boolean delete(Usuario usuario) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pst = null;
+        DBCon dbcon = new DBCon();
+        
+        String sql = "DELETE FROM USUARIO WHERE USERNAME = ?";
+        try {
+            conn = dbcon.getConnection();
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, (usuario.getUserName().toUpperCase()));
+            pst.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                conn.close();
+            }
+            return false;
+        }
+    }
+    
+    public boolean update(Usuario usuario) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pst = null;
+        DBCon dbcon = new DBCon();
+        
+        String sql = "UPDATE USUARIO SET USERNAME=?,NOMBRE=?,APELLIDO=?,PASSWORD=? "
+                + "WHERE USERNAME=?";
+        try {
+            conn = dbcon.getConnection();
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, (usuario.getUserName().toUpperCase()));
+            pst.setString(2, usuario.getNombre());
+            pst.setString(3, usuario.getApellido());
+            pst.setString(4, encript.encriptar(usuario.getPassword()));
+            pst.setString(5, usuario.getUserName().toUpperCase());
             pst.execute();
             return true;
         } catch (SQLException ex) {
@@ -56,7 +103,7 @@ public class UsuarioManager {
     
     public List<Usuario> listAll() throws SQLException {
         List<Usuario> listaUsuarios = new ArrayList();
-        //Usuario usuario = new Usuario();
+        Usuario usuario = new Usuario();
         Connection conn = null;
         Statement stmt = null;
         DBCon dbcon = new DBCon();
@@ -66,15 +113,14 @@ public class UsuarioManager {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             
-           /* while (rs.next()) { //Este dejo comentado nomas, esta parte ya me perdi... 
-                                   // pero algo asi deberia ser, ya no puedo pensar
-                String user = rs.getString(1);
-                String nombre = rs.getString(2);
-                String apellido = rs.getString(3);
-                Date fechaCreacion = rs.getDate(4);
-                usuario = new Usuario(user, nombre, apellido, fechaCreacion);
+            while (rs.next()) { 
+                usuario.setUserName(rs.getString(1));
+                usuario.setNombre(rs.getString(2));
+                usuario.setApellido(rs.getString(3));
+                usuario.setFechaCreacion(rs.getDate(4));
                 listaUsuarios.add(usuario);
-            }*/
+                usuario = new Usuario();
+            }
         }catch(SQLException ex) {
             Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
             if (conn != null) {
@@ -88,7 +134,7 @@ public class UsuarioManager {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
-        String sql = "SELECT * FROM ROLES_USUARIOS WHERE USUARIO=?";
+        String sql = "SELECT * FROM USUARIO WHERE USERNAME=? AND PASSWORD =?";
 
         try {
             conn = dbcon.getConnection();
@@ -110,12 +156,12 @@ public class UsuarioManager {
 //    public static void main(String[] args) throws SQLException {
 //        UsuarioManager um = new UsuarioManager();
 //        Usuario usuario = new Usuario();
-//        usuario.setUserName("RONALDMA");
-//        usuario.setNombre("Ronaldo");
-//        usuario.setApellido("Mareco");
+//        usuario.setUserName("ROSSVI");
+//        usuario.setNombre("Rossana");
+//        usuario.setApellido("Villegas");
 //        usuario.setPassword("contraseña");
 //        usuario.setFechaCreacion(new java.sql.Date(new java.util.Date().getTime()));
-//        usuario.setIdPerfil(1);
 //        um.add(usuario);
+//        um.listAll();
 //    }
 }
