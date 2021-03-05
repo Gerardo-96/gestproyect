@@ -15,7 +15,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import manager.RolManager;
 import manager.UsuarioManager;
+import model.Rol;
 import model.Usuario;
 
 /**
@@ -37,7 +39,7 @@ public class UsuarioBean {
             if (usuarios.isEmpty()) {//Pregunta si la lista esta vacia
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Atencion", " La lista esta vacia!"));
-            } else {//Aca hay que recorrer la lista e imprimir
+            } else {
             }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,14 +73,38 @@ public class UsuarioBean {
 
     public String eliminarUsuario() {
         reload();
+        try {
+            if (usuarioMg.delete(usuario)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Ok", " Registro Borrado con Exitoso!"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error", " al intentar borrar el registrar!"));
+                return "";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return "listarUsuarios";
     }
 
     public String editarUsuario() {
         reload();
+        try {
+            if (usuarioMg.update(usuario)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Ok", " El registro se actualizo con Exitoso!"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error", " al intentar actualizar el registrar!"));
+                return "";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return "listarUsuarios";
     }
-
+    
     public void reload() {
         try {
             usuarios.clear();
