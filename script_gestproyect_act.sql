@@ -19,6 +19,10 @@ CREATE TABLE public.usuario
     CONSTRAINT usuario_pkey PRIMARY KEY (id_usuario)
 );
 
+ALTER TABLE usuario
+	ADD CONSTRAINT uq_usuario_username
+	UNIQUE (username);
+
 CREATE SEQUENCE public.sc_id_usuario
     INCREMENT 1
     START 1
@@ -84,6 +88,10 @@ CREATE SEQUENCE public.sc_id_rol
     MINVALUE 1
     MAXVALUE 9223372036854775807
     CACHE 1;
+
+ GRANT ALL PRIVILEGES ON TABLE rol TO gestpro;
+ GRANT ALL PRIVILEGES ON TABLE rol_usuario TO gestpro;
+ GRANT ALL PRIVILEGES ON SEQUENCE sc_id_rol TO gestpro;
 
 
 CREATE FUNCTION public.id_rol()
