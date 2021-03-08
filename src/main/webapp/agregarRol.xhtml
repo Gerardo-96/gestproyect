@@ -16,14 +16,14 @@ and open the template in the editor.
     <h:body>
         <div class="card">
             <h:form>
-                <h5 class="p-mt-0">Basic</h5>
-                <h:panelGrid columns="3" cellpadding="7">
-                    <p:outputLabel for="name" value="Codigo Rol"/>
-                    <p:inputText id="name" value="#{RolBean.rol.codigoRol}"/>
-                    <p:outputLabel for="name" value="Descripción"/>
-                    <p:inputText id="name" value="#{RolBean.rol.descripcion}"/>
+            <center><font size="18">Rol</font></center>
+                <h:panelGrid columns="2" cellpadding="7">
+                    <p:outputLabel for="codigoRol" value="Codigo Rol"/>
+                    <p:inputText id="codigoRol" value="#{RolBean.rol.codigoRol}"/>
+                    <p:outputLabel for="descripcion" value="Descripción"/>
+                    <p:inputText id="descripcion" value="#{RolBean.rol.descripcion}"/>
                 </h:panelGrid>
-                <p:commandLink id="nonAjax" action="#{RolBean.agregar}" style="margin-right:20px;" ajax="false">
+                <p:commandLink id="agregarRol" action="#{RolBean.agregar}" style="margin-right:20px;" ajax="false">
                     <h:outputText value="Agregar"/>
                 </p:commandLink>            
             </h:form>

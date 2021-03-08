@@ -10,6 +10,7 @@ package beans;
  * @author ronaldma
  */
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -17,7 +18,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import manager.RolManager;
 import manager.UsuarioManager;
+import model.Rol;
 import utils.Util;
 
 @ManagedBean(name = "LoginBean")
@@ -28,6 +31,8 @@ public class LoginBean implements Serializable {
     private String password;
     private String message;
     private String userName;
+    private RolManager rolMng = new RolManager();
+    private List<Rol> roles;
 
     public LoginBean() {
     }
@@ -56,16 +61,26 @@ public class LoginBean implements Serializable {
         this.userName = userName;
     }
 
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+    
+    
+
     public String loginProject() {
         try {
-            System.out.println("a");
             UsuarioManager usuarioMng = new UsuarioManager();
             boolean result = usuarioMng.authenticate(userName, password);
             if (result) {
-
+                roles = rolMng.getRolesPorUsuario(userName);
                 // get Http Session and store username
                 HttpSession session = Util.getSession();
                 session.setAttribute("userName", userName);
+                session.setAttribute("roles", roles);
                 return "inicio";
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,

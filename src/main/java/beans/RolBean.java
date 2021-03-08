@@ -5,6 +5,7 @@
  */
 package beans;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +24,20 @@ import model.Rol;
  */
 @ManagedBean(name = "RolBean")
 @SessionScoped
-public class RolBean {
+public class RolBean implements Serializable {
+
     Rol rol = new Rol();
     RolManager rolMg = new RolManager();
     List<Rol> roles = new ArrayList();
-    
+
     public String agregar() {
         try {
             if (rolMg.add(rol)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Ok", "Rol agregado con Exitoso!"));
+                        "Rol agregado con Exito", "Exitoso!"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error", " al intentar agregar el rol!"));
+                        "Error al intentar agregar el rol", "Error!"));
                 return "";
             }
         } catch (SQLException ex) {
@@ -44,54 +46,55 @@ public class RolBean {
         limpiarCampos();
         return "inicio";
     }
-    
-    public void listarRoles() {
+
+    public String listarRoles() {
         try {
             roles = rolMg.listAll();
             if (roles.isEmpty()) {//Pregunta si la lista esta vacia
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Atencion", " La lista esta vacia!"));
-            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "La lista esta vacia ", "Atención!"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public String eliminarRol() {
-        reload();
-        try {
-            if (rolMg.delete(rol)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Ok", " Rol Borrado con Exitoso!"));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error", " al intentar borrar el rol!"));
-                return "";
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
         }
         return "listarRoles";
     }
 
-    public String editarRol() {
-        reload();
+    public String eliminarRol() {
         try {
-            if (rolMg.update(rol)) {
+            if (rolMg.delete(rol)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Ok", " El rol se actualizo con Exitoso!"));
+                        "Rol Borrado con Exito", "Exitoso!"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error", " al intentar actualizar el rol!"));
+                        "Error al intentar borrar el rol", "Error!"));
                 return "";
             }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        reload();
         return "listarRoles";
     }
-    
+
+    public String editarRol() {
+        try {
+            if (rolMg.update(rol)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "El rol se actualizo con Exito", " Exito!"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error al intentar actualizar el rol", " Error!"));
+                return "";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        reload();
+        return "listarRoles";
+    }
+
     public void reload() {
         try {
             roles.clear();

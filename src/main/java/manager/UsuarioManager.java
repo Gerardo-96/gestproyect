@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Rol;
 import model.Usuario;
 import utils.DBCon;
 import utils.Encript;
@@ -107,7 +108,8 @@ public class UsuarioManager {
         Connection conn = null;
         Statement stmt = null;
         DBCon dbcon = new DBCon();
-        String sql = "SELECT USERNAME,NOMBRE,APELLIDO,FECHA_CREACION FROM USUARIO";
+        RolManager rm = new RolManager();
+        String sql = "SELECT USERNAME,NOMBRE,APELLIDO,FECHA_CREACION, PASSWORD FROM USUARIO";
         try {
             conn = dbcon.getConnection();
             stmt = conn.createStatement();
@@ -118,6 +120,8 @@ public class UsuarioManager {
                 usuario.setNombre(rs.getString(2));
                 usuario.setApellido(rs.getString(3));
                 usuario.setFechaCreacion(rs.getDate(4));
+                usuario.setPassword(encript.desencriptar(rs.getString(5)));
+                usuario.setRoles(rm.getRolesPorUsuario(rs.getString(1)));
                 listaUsuarios.add(usuario);
                 usuario = new Usuario();
             }
@@ -152,9 +156,32 @@ public class UsuarioManager {
         }
         
     }
+    
+    public boolean asignarRol(Usuario usuario, Rol rol) throws SQLException{
+        Connection conn = null;
+        PreparedStatement pst = null;
+        DBCon dbcon = new DBCon();
+        
+        String sql = "INSERT INTO ROL_USUARIO(ID_USUARIO,ID_ROL) "
+                + "VALUES(?,?)";
+        try {
+            conn = dbcon.getConnection();
+            pst = conn.prepareStatement(sql);
+            pst.setInt(1, usuario.getIdUsuario());
+            pst.setInt(2, rol.getIdRol());
+            pst.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                conn.close();
+            }
+            return false;
+        }
+    }
 
-//    public static void main(String[] args) throws SQLException {
-//        UsuarioManager um = new UsuarioManager();
+    public static void main(String[] args) throws SQLException {
+        UsuarioManager um = new UsuarioManager();
 //        Usuario usuario = new Usuario();
 //        usuario.setUserName("ROSSVI");
 //        usuario.setNombre("Rossana");
@@ -162,6 +189,6 @@ public class UsuarioManager {
 //        usuario.setPassword("contraseña");
 //        usuario.setFechaCreacion(new java.sql.Date(new java.util.Date().getTime()));
 //        um.add(usuario);
-//        um.listAll();
-//    }
+        um.listAll();
+    }
 }

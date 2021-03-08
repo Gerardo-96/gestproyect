@@ -71,7 +71,9 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "password")
     private String password;
-//    private List<Rol> roles;
+    
+    private List<Rol> roles;
+    
     public Usuario() {
     }
 
@@ -134,6 +136,16 @@ public class Usuario implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+    
+    
 
     @Override
     public int hashCode() {

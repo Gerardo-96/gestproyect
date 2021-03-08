@@ -25,17 +25,17 @@
         <h:form>  
             <p:growl id="messages"/>
             <p:menubar>
-                <p:submenu label="Administracion">
+                <p:submenu label="Administracion" rendered="#{Facelets.poseeRol(LoginBean.roles, 'ADMIN')}">
                     <p:submenu label="Usuario">
                         <p:menuitem value="Crear" outcome="agregarUsuario.xhtml" />
-                        <p:menuitem value="Listar" outcome="listarUsuarios.xhtml"/>
+                        <p:menuitem value="Listar" action="#{UsuarioBean.listarUsuarios}" />
                     </p:submenu>
                     <p:submenu label="Rol">
-                        <p:menuitem value="Crear" url="ABMProyecto.xhtml" />
-                        <p:menuitem value="Listar" url="ABMProyecto.xhtml" />
+                        <p:menuitem value="Crear" outcome="agregarRol.xhtml" />
+                        <p:menuitem value="Listar" action="#{RolBean.listarRoles}" />
                     </p:submenu>
                 </p:submenu>
-                <p:submenu label="Desarrollo">
+                <p:submenu label="Desarrollo" rendered="#{Facelets.poseeRol(roles, 'DEV')}">
                         <p:menuitem value="Proyecto" url="ABMProyecto.xhtml" />
                         <p:menuitem value="Fase" url="ABMFase.xhtml" />
                         <p:menuitem value="Item" url="ABMItem.xhtml" />

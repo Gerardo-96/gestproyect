@@ -3,7 +3,7 @@
               xmlns="http://java.sun.com/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
-<!--    <navigation-rule>
+    <!--    <navigation-rule>
         <navigation-case>
             <from-outcome>home</from-outcome>
             <to-view-id>/home.xhtml</to-view-id>
@@ -19,6 +19,30 @@
         <navigation-case>
             <from-outcome>listarUsuarios</from-outcome>
             <to-view-id>/listarUsuarios.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>listarRoles</from-outcome>
+            <to-view-id>/listarRoles.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>usuario</from-outcome>
+            <to-view-id>/usuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>rol</from-outcome>
+            <to-view-id>/rol.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>asignarRolUsuario</from-outcome>
+            <to-view-id>/agregarRolUsuario.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

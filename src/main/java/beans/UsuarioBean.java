@@ -5,20 +5,25 @@
  */
 package beans;
 
+import java.io.Serializable;
+import static java.lang.Integer.getInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import manager.RolManager;
 import manager.UsuarioManager;
 import model.Rol;
 import model.Usuario;
+import org.primefaces.util.LangUtils;
 
 /**
  *
@@ -26,24 +31,61 @@ import model.Usuario;
  */
 @ManagedBean(name = "UsuarioBean")
 @SessionScoped
-public class UsuarioBean {
+public class UsuarioBean implements Serializable {
 
     Usuario usuario = new Usuario();
     UsuarioManager usuarioMg = new UsuarioManager();
     List<Usuario> usuarios = new ArrayList();
+    RolManager rolMg = new RolManager();
+    List<Usuario> filtros = new ArrayList();
     private String confirmarPass;
+    private List<SelectItem> roles = new ArrayList();
+    private Rol rolSelected;
 
-    public void listarUsuarios() {
+    public String renderUsuario() {
+        return "usuario";
+    }
+
+    public String renderAsignarRol() {
+        List<Rol> rolesTem;
+        SelectItem selectItem = new SelectItem();
+        if (roles.isEmpty()) {
+            rolesTem = obtenerRoles();
+            for (Rol rol : rolesTem) {
+                selectItem.setLabel(rol.getCodigoRol());
+                selectItem.setValue(rol);
+                roles.add(selectItem);
+                selectItem = new SelectItem();
+            }
+        }
+        return "agregarRolUsuario";
+    }
+
+    public String asignarRol() {
+        try {
+            if (usuarioMg.asignarRol(usuario, rolSelected)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Registro Exitoso!", " Exitoso!"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        limpiarCampos();
+        return "usuario";
+    }
+
+    public String listarUsuarios() {
         try {
             usuarios = usuarioMg.listAll();
             if (usuarios.isEmpty()) {//Pregunta si la lista esta vacia
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Atencion", " La lista esta vacia!"));
-            } else {
             }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return "listarUsuarios";
     }
 
     public String agregar() {
@@ -53,18 +95,14 @@ public class UsuarioBean {
             try {
                 if (usuarioMg.add(usuario)) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Registro", " Exitoso!"));
-                } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Error", " al registrar usuario!"));
-                    return "";
+                            "Registro Exitoso!", " Exitoso!"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error", " Las contraseñas no coinciden!"));
+                    "No coinciden las contraseñas", " Error!"));
             return "";
         }
         limpiarCampos();
@@ -72,7 +110,6 @@ public class UsuarioBean {
     }
 
     public String eliminarUsuario() {
-        reload();
         try {
             if (usuarioMg.delete(usuario)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -85,11 +122,11 @@ public class UsuarioBean {
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        reload();
         return "listarUsuarios";
     }
 
     public String editarUsuario() {
-        reload();
         try {
             if (usuarioMg.update(usuario)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -102,9 +139,10 @@ public class UsuarioBean {
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        reload();
         return "listarUsuarios";
     }
-    
+
     public void reload() {
         try {
             usuarios.clear();
@@ -113,6 +151,15 @@ public class UsuarioBean {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public List<Rol> obtenerRoles() {
+        try {
+            return rolMg.listAll();
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     public Usuario getUsuario() {
@@ -131,6 +178,14 @@ public class UsuarioBean {
         this.usuarios = usuarios;
     }
 
+    public List<Usuario> getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(List<Usuario> filtros) {
+        this.filtros = filtros;
+    }
+
     public String getConfirmarPass() {
         return confirmarPass;
     }
@@ -139,10 +194,28 @@ public class UsuarioBean {
         this.confirmarPass = confirmarPass;
     }
 
+    public List<SelectItem> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<SelectItem> roles) {
+        this.roles = roles;
+    }
+
+    public Rol getRolSelected() {
+        return rolSelected;
+    }
+
+    public void setRolSelected(Rol rolSelected) {
+        this.rolSelected = rolSelected;
+    }
+
     private void limpiarCampos() {
         usuario = new Usuario();
         confirmarPass = "";
         usuarios.clear();
+        roles.clear();
+        rolSelected = null;
     }
 
 }

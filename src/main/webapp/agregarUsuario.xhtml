@@ -16,20 +16,20 @@ and open the template in the editor.
     <h:body>
         <div class="card">
             <h:form>
-                <h5 class="p-mt-0">Basic</h5>
-                <h:panelGrid columns="3" cellpadding="7">
-                    <p:outputLabel for="name" value="Usuario"/>
-                    <p:inputText id="name" value="#{UsuarioBean.usuario.userName}"/>
-                    <p:outputLabel for="name" value="Nombre"/>
-                    <p:inputText id="name" value="#{UsuarioBean.usuario.nombre}"/>
-                    <p:outputLabel for="name" value="Apellido"/>
-                    <p:inputText id="name" value="#{UsuarioBean.usuario.apellido}"/>
-                    <p:outputLabel for="name" value="Contraseña"/>
-                    <p:inputText id="name" value="#{UsuarioBean.usuario.password}"/>
-                    <p:outputLabel for="name" value="Confirmar Contraseña"/>
-                    <p:inputText id="name" value="#{UsuarioBean.confirmarPass}"/>
+            <center><font size="18">Usuario</font></center>
+                <h:panelGrid columns="2" cellpadding="7">
+                    <p:outputLabel for="usuario" value="Usuario"/>
+                    <p:inputText id="usuario" value="#{UsuarioBean.usuario.userName}"/>
+                    <p:outputLabel for="nombre" value="Nombre"/>
+                    <p:inputText id="nombre" value="#{UsuarioBean.usuario.nombre}"/>
+                    <p:outputLabel for="apellido" value="Apellido"/>
+                    <p:inputText id="apellido" value="#{UsuarioBean.usuario.apellido}"/>
+                    <p:outputLabel for="contraseña" value="Contraseña"/>
+                    <p:inputText id="contraseña" value="#{UsuarioBean.usuario.password}"/>
+                    <p:outputLabel for="confirmarContraseña" value="Confirmar Contraseña"/>
+                    <p:inputText id="confirmarContraseña" value="#{UsuarioBean.confirmarPass}"/>
                 </h:panelGrid>
-                <p:commandLink id="nonAjax" action="#{UsuarioBean.agregar}" style="margin-right:20px;" ajax="false">
+                <p:commandLink id="agregarUsuario" action="#{UsuarioBean.agregar}" style="margin-right:20px;" ajax="false">
                     <h:outputText value="Agregar"/>
                 </p:commandLink>
             </h:form>
