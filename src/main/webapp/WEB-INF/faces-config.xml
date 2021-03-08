@@ -45,4 +45,8 @@
             <to-view-id>/agregarRolUsuario.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+<!--    <converter>
+        <converter-id></converter-id>
+        <converter-class></converter-class>
+    </converter>-->
 </faces-config>

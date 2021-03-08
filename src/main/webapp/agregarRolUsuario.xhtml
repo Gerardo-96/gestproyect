@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -30,9 +28,10 @@
                     <h:panelGroup>
                         <h:panelGrid columns="1" cellpadding="7">
                             <p:selectOneMenu id="rolSelected" value="#{UsuarioBean.rolSelected}" style="width:150px">
+                                <f:selectItem itemLabel="Seleccione" itemDisabled="true" />
                                 <f:selectItems value="#{UsuarioBean.roles}"/>
                             </p:selectOneMenu>
-                            <p:commandLink id="agregarRolUsuario" action="#{UsuarioBean.asignarRol}" style="margin-right:20px;" ajax="false">
+                            <p:commandLink action="#{UsuarioBean.asignarRol}" style="margin-right:20px;" ajax="false">
                                 <h:outputText value="Agregar"/>
                             </p:commandLink>
                         </h:panelGrid>

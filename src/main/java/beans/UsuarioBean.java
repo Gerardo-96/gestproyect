@@ -40,7 +40,7 @@ public class UsuarioBean implements Serializable {
     List<Usuario> filtros = new ArrayList();
     private String confirmarPass;
     private List<SelectItem> roles = new ArrayList();
-    private Rol rolSelected;
+    private String rolSelected;    
 
     public String renderUsuario() {
         return "usuario";
@@ -53,7 +53,7 @@ public class UsuarioBean implements Serializable {
             rolesTem = obtenerRoles();
             for (Rol rol : rolesTem) {
                 selectItem.setLabel(rol.getCodigoRol());
-                selectItem.setValue(rol);
+                selectItem.setValue(rol.getCodigoRol());
                 roles.add(selectItem);
                 selectItem = new SelectItem();
             }
@@ -63,7 +63,8 @@ public class UsuarioBean implements Serializable {
 
     public String asignarRol() {
         try {
-            if (usuarioMg.asignarRol(usuario, rolSelected)) {
+            
+            if (usuarioMg.asignarRol(usuario, rolMg.getRolPorCodigo(rolSelected))) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Registro Exitoso!", " Exitoso!"));
             }
@@ -202,11 +203,11 @@ public class UsuarioBean implements Serializable {
         this.roles = roles;
     }
 
-    public Rol getRolSelected() {
+    public String getRolSelected() {
         return rolSelected;
     }
 
-    public void setRolSelected(Rol rolSelected) {
+    public void setRolSelected(String rolSelected) {
         this.rolSelected = rolSelected;
     }
 

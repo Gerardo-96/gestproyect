@@ -109,7 +109,7 @@ public class UsuarioManager {
         Statement stmt = null;
         DBCon dbcon = new DBCon();
         RolManager rm = new RolManager();
-        String sql = "SELECT USERNAME,NOMBRE,APELLIDO,FECHA_CREACION, PASSWORD FROM USUARIO";
+        String sql = "SELECT USERNAME,NOMBRE,APELLIDO,FECHA_CREACION, PASSWORD,ID_USUARIO FROM USUARIO";
         try {
             conn = dbcon.getConnection();
             stmt = conn.createStatement();
@@ -121,6 +121,7 @@ public class UsuarioManager {
                 usuario.setApellido(rs.getString(3));
                 usuario.setFechaCreacion(rs.getDate(4));
                 usuario.setPassword(encript.desencriptar(rs.getString(5)));
+                usuario.setIdUsuario(rs.getInt(6));
                 usuario.setRoles(rm.getRolesPorUsuario(rs.getString(1)));
                 listaUsuarios.add(usuario);
                 usuario = new Usuario();

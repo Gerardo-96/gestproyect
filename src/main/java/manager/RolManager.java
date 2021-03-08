@@ -21,8 +21,35 @@ import utils.DBCon;
  *
  * @author Ross
  */
-
 public class RolManager {
+
+    public Rol getRolPorCodigo(String codigo) throws SQLException {
+        Rol rol = new Rol();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        DBCon dbcon = new DBCon();
+        String sql = "SELECT ID_ROL, CODIGO_ROL,DESCRIPCION,FECHA_CREACION FROM ROL "
+                + "WHERE CODIGO_ROL = ?";
+        try {
+            conn = dbcon.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, (codigo.toUpperCase()));
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                rol.setIdRol(rs.getInt(1));
+                rol.setCodigoRol(rs.getString(2));
+                rol.setDescripcion(rs.getString(3));
+                rol.setFechaCreacion(rs.getDate(4));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return rol;
+    }
 
     public List<Rol> listAll() throws SQLException {
         List<Rol> listaRoles = new ArrayList();
