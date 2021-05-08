@@ -26,7 +26,7 @@ public class ProyectoBean  implements Serializable {
     }
     
     public String listarProyectos(){
-        return "listarProyectos";
+         return "listarProyectos";
     }
     
 }
