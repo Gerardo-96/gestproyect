@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
  * @author Ross
  */
 public class Proyecto {
-
+|
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
