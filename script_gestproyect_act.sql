@@ -93,6 +93,10 @@ CREATE SEQUENCE public.sc_id_rol
  GRANT ALL PRIVILEGES ON TABLE rol_usuario TO gestpro;
  GRANT ALL PRIVILEGES ON SEQUENCE sc_id_rol TO gestpro;
 
+ GRANT ALL PRIVILEGES ON TABLE rol TO gestproadmin;
+ GRANT ALL PRIVILEGES ON TABLE rol_usuario TO gestproadmin;
+ GRANT ALL PRIVILEGES ON SEQUENCE sc_id_rol TO gestproadmin;
+
 
 CREATE FUNCTION public.id_rol()
     RETURNS trigger

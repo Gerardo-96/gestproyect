@@ -36,7 +36,10 @@
                     </p:submenu>
                 </p:submenu>
                 <p:submenu label="Desarrollo" rendered="#{Facelets.poseeRol(roles, 'DEV')}">
-                        <p:menuitem value="Proyecto" url="ABMProyecto.xhtml" />
+                    <p:submenu label="Proyecto">
+                        <p:menuitem value="Crear" url="ABMProyecto.xhtml" />
+                        <p:menuitem value="Modificar" url="ABMProyecto.xhtml" />
+                    </p:submenu>
                         <p:menuitem value="Fase" url="ABMFase.xhtml" />
                         <p:menuitem value="Item" url="ABMItem.xhtml" />
                 </p:submenu>                
