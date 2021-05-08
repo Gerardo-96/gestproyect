@@ -13,8 +13,20 @@ import javax.faces.bean.SessionScoped;
  *
  * @author rmareco
  */
-@ManagedBean(name = "LoginBean")
+@ManagedBean(name = "ProyectoBean")
 @SessionScoped
 public class ProyectoBean  implements Serializable {
+    
+    public String crear(){
+        return "crearProyecto";
+    }
+    
+    public String modificar(){
+        return "modificarProyecto";
+    }
+    
+    public String listarProyectos(){
+        return "listarProyectos";
+    }
     
 }
