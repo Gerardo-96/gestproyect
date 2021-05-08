@@ -45,7 +45,37 @@
             <to-view-id>/agregarRolUsuario.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-<!--    <converter>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>crearProyecto</from-outcome>
+            <to-view-id>/agregarProyecto.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>crearTarea</from-outcome>
+            <to-view-id>/agregarTarea.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>listarProyectos</from-outcome>
+            <to-view-id>/listarProyectos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>listarTareas</from-outcome>
+            <to-view-id>/listarTareas.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>agregarUsuarioProyecto</from-outcome>
+            <to-view-id>/agregarUsuarioProyecto.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <!--    <converter>
         <converter-id></converter-id>
         <converter-class></converter-class>
     </converter>-->

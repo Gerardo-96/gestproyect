@@ -8,7 +8,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Inicio</title>
         <link type="text/css"
               href="${facesContext.externalContext.requestContextPath}/resources/css/style.css"
@@ -37,11 +37,14 @@
                 </p:submenu>
                 <p:submenu label="Desarrollo" rendered="#{Facelets.poseeRol(roles, 'DEV')}">
                     <p:submenu label="Proyecto">
-                        <p:menuitem value="Crear" url="#{ProyectoBean.crear}" />
-                        <p:menuitem value="Modificar" url="ABMProyecto.xhtml" />
+                        <p:menuitem value="Crear" action="#{ProyectoBean.crear}" />
+                        <p:menuitem value="Listar" action="#{ProyectoBean.listarProyectos}" />
                     </p:submenu>
-                        <p:menuitem value="Fase" url="ABMFase.xhtml" />
-                        <p:menuitem value="Item" url="ABMItem.xhtml" />
+                    <p:submenu label="Tarea">
+                        <p:menuitem value="Crear" action="#{TareaBean.crear}" />
+                        <p:menuitem value="Listar" action="#{TareaBean.listarTareas}" />
+                    </p:submenu>
+
                 </p:submenu>                
                 <p:submenu label="Configuracion">
                     <p:menuitem value="Proyecto" url="RepProyecto.xhtml" />
