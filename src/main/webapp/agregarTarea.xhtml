@@ -10,20 +10,24 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Rol</title>
+        <title>Tarea</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
         <div class="card">
             <h:form>
-            <center><font size="18">Rol</font></center>
+                <center><font size="18">Tarea</font></center>
                 <h:panelGrid columns="2" cellpadding="7">
-                    <p:outputLabel for="codigoRol" value="Codigo Rol"/>
-                    <p:inputText id="codigoRol" value="#{RolBean.rol.codigoRol}"/>
+                    <p:outputLabel for="nombre" value="Nombre"/>
+                    <p:inputText id="nombre" value="#{TareaBean.tarea.nombre}"/>
                     <p:outputLabel for="descripcion" value="Descripción"/>
-                    <p:inputText id="descripcion" value="#{RolBean.rol.descripcion}"/>
+                    <p:inputText id="descripcion" value="#{TareaBean.tarea.descripcion}"/>
+                    <p:selectOneMenu id="idTareaPadre" value="#{TareaBean.tareaPadreSelected}" style="width:150px">
+                        <f:selectItem itemLabel="Seleccione" itemDisabled="true" />
+                        <f:selectItems value="#{TareaBean.tareasItem}"/>
+                    </p:selectOneMenu>
                 </h:panelGrid>
-                <p:commandLink id="agregarRol" action="#{RolBean.agregar}" style="margin-right:20px;" ajax="false">
+                <p:commandLink id="agregarTarea" action="#{TareaBean.agregar}" style="margin-right:20px;" ajax="false">
                     <h:outputText value="Agregar"/>
                 </p:commandLink>            
             </h:form>

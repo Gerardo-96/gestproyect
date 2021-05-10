@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
  * @author Ross
  */
 public class Proyecto {
-|
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -27,21 +27,21 @@ public class Proyecto {
     private Integer idProyecto;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "descripcion")    private String nombre;
-    private Usuario lider;
+    @Size(min = 1, max = 300)
+    @Column(name = "descripcion")
+    private String descripcion;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "nombre")
+    private String nombre;
+    @Basic(optional = false)
+    @Column(name = "id_lider")
+    private Integer idLider;
     private List<Usuario> integrantes;
     private List<Tarea> tareas;
 
     public Proyecto() {
-    }
-
-    public Proyecto(Integer idProyecto, String nombre, Usuario lider, List<Usuario> integrantes, List<Tarea> tareas) {
-        this.idProyecto = idProyecto;
-        this.nombre = nombre;
-        this.lider = lider;
-        this.integrantes = integrantes;
-        this.tareas = tareas;
     }
 
     public Integer getIdProyecto() {
@@ -60,12 +60,12 @@ public class Proyecto {
         this.nombre = nombre;
     }
 
-    public Usuario getLider() {
-        return lider;
+    public Integer getIdLider() {
+        return idLider;
     }
 
-    public void setLider(Usuario lider) {
-        this.lider = lider;
+    public void setIdLider(Integer idLider) {
+        this.idLider = idLider;
     }
 
     public List<Usuario> getIntegrantes() {
@@ -82,6 +82,14 @@ public class Proyecto {
 
     public void setTareas(List<Tarea> tareas) {
         this.tareas = tareas;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
 }

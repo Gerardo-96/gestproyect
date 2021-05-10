@@ -16,17 +16,20 @@ and open the template in the editor.
     <h:body>
         <div class="card">
             <h:form>
-                <center><font size="18">Rol</font>
+                <center><font size="18">Traea</font>
                     <h:panelGrid columns="2" cellpadding="7">
-                        <p:outputLabel for="codigoRol" value="Codigo Rol"/>
-                        <p:inputText id="codigoRol" value="#{RolBean.rol.codigoRol}"/>
+                        <p:outputLabel for="tareaId" value="Id Traea"/>
+                        <p:outputLabel id="tareaId" value="#{TareaBean.tarea.idTarea}"/>
+                        <p:outputLabel for="nombre" value="Nombre"/>
+                        <p:inputText id="nombre" value="#{TareaBean.tarea.nombre}"/>
                         <p:outputLabel for="descripcion" value="Descripción"/>
-                        <p:inputText id="descripcion" value="#{RolBean.rol.descripcion}"/>
-                        <p:commandLink id="modificarRol" action="#{RolBean.editarRol}" style="margin-right:20px;" ajax="false">
+                        <p:inputText id="descripcion" value="#{TareaBean.tarea.descripcion}"/>
+                        <p:selectOneMenu id="idTareaPadre" value="#{TareaBean.tareaPadreSelected}" style="width:150px">
+                            <f:selectItem itemLabel="Seleccione" itemDisabled="true" />
+                            <f:selectItems value="#{TareaBean.tareasItem}"/>
+                        </p:selectOneMenu>
+                        <p:commandLink id="modificarTarea" action="#{TareaBean.editarTarea}" style="margin-right:20px;" ajax="false">
                             <h:outputText value="Modificar"/>
-                        </p:commandLink>
-                        <p:commandLink id="eliminarRol" action="#{RolBean.eliminarRol}" style="margin-right:20px;" ajax="false">
-                            <h:outputText value="Eliminar"/>
                         </p:commandLink>
                     </h:panelGrid>
                 </center>

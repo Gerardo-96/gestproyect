@@ -31,7 +31,7 @@ public class Tarea {
     private String estado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 0)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
@@ -42,7 +42,9 @@ public class Tarea {
     @Basic(optional = false)
     @Column(name = "id_padre")
     private Integer idTareaPadre;
-
+    @Basic(optional = false)
+    @Column(name = "editable")
+    private boolean editable;
     public Tarea() {
     }
 
@@ -92,6 +94,14 @@ public class Tarea {
 
     public void setIdTareaPadre(Integer idTareaPadre) {
         this.idTareaPadre = idTareaPadre;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 
 }

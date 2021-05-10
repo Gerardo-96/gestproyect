@@ -41,6 +41,18 @@
     </navigation-rule>
     <navigation-rule>
         <navigation-case>
+            <from-outcome>proyecto</from-outcome>
+            <to-view-id>/proyecto.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>tarea</from-outcome>
+            <to-view-id>/tarea.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
             <from-outcome>asignarRolUsuario</from-outcome>
             <to-view-id>/agregarRolUsuario.xhtml</to-view-id>
         </navigation-case>
@@ -73,6 +85,12 @@
         <navigation-case>
             <from-outcome>agregarUsuarioProyecto</from-outcome>
             <to-view-id>/agregarUsuarioProyecto.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>agregarTareaProyecto</from-outcome>
+            <to-view-id>/agregarTareaProyecto.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <!--    <converter>

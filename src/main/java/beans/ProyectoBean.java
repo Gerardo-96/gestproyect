@@ -11,11 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import manager.ProyectoManager;
+import manager.TareaManager;
 import manager.UsuarioManager;
 import model.Proyecto;
+import model.Tarea;
 import model.Usuario;
 
 /**
@@ -28,33 +33,119 @@ public class ProyectoBean implements Serializable {
 
     private Proyecto proyecto;
     private List<SelectItem> usuarios;
+    private List<SelectItem> tareas;
+    private List<Integer> tareasProyecto;
     private List<Integer> usuariosProyecto;
+    private SelectItem liderSelected;
+    private List<Proyecto> proyectos;
+    private Usuario liderObject;
 
     public String crear() {
+        UsuarioManager um = new UsuarioManager();
+        List<Usuario> usuariosTemp = new ArrayList<>();
+        try {
+            usuariosTemp = um.listAll();
+            SelectItem selectItem = new SelectItem();
+            for (Usuario usuario : usuariosTemp) {
+                selectItem.setLabel(usuario.getUserName());
+                selectItem.setValue(usuario.getIdUsuario());
+                usuarios.add(selectItem);
+                selectItem = new SelectItem();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProyectoBean.class.getName()).log(Level.SEVERE, null, ex);
+            return "inicio";
+        }
         return "crearProyecto";
     }
 
     public String agregar() {
-
+        ProyectoManager pm = new ProyectoManager();
+        proyecto.setIdLider((Integer) liderSelected.getValue());
+        try {
+            if (pm.add(proyecto)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Registro Exitoso!", " Exitoso!"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProyectoManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return "inicio";
     }
 
-    public String siguiente() {
+    public String agregarTareas() {
+        ProyectoManager pm = new ProyectoManager();
+        try {
+            if (pm.asignarTareaProyecto(tareasProyecto, proyecto.getIdProyecto())) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Registro Exitoso!", " Exitoso!"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProyectoManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "proyecto";
+    }
+
+    public String renderProyecto() {
         UsuarioManager um = new UsuarioManager();
-        List<Usuario> usuariosTemp = new ArrayList<>;
-      try {
-           usuarios = um.listAll();
+        try {
+            liderObject = um.getById(proyecto.getIdLider());
+        } catch (SQLException ex) {
+            Logger.getLogger(ProyectoManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "proyecto";
+    }
+
+    public String asignarTareas() {
+        TareaManager tm = new TareaManager();
+        List<Tarea> tareasTem = new ArrayList<>();
+        try {
+            tareasTem = tm.listAll();
+            SelectItem selectItem = new SelectItem();
+            for (Tarea tarea : tareasTem) {
+                selectItem.setLabel(tarea.getNombre());
+                selectItem.setValue(tarea.getIdTarea());
+                tareas.add(selectItem);
+                selectItem = new SelectItem();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ProyectoBean.class.getName()).log(Level.SEVERE, null, ex);
-            return "agregarProyecto";        }
-        return "agregarUsuarioProyecto";
+            return "";
+        }
+        return "agregarTareaProyecto";
+    }
+
+    public String editarProyecto() {
+        ProyectoManager pm = new ProyectoManager();
+        try {
+            pm.update(proyecto);
+            if (!tareasProyecto.isEmpty()) {
+                pm.asignarTareaProyecto(tareasProyecto, proyecto.getIdProyecto());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProyectoBean.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+        return "listarProyectos";
     }
 
     public String modificar() {
+
         return "modificarProyecto";
     }
 
     public String listarProyectos() {
+        ProyectoManager pm = new ProyectoManager();
+        try {
+            proyectos = pm.listAll();
+            if (proyectos.isEmpty()) {//Pregunta si la lista esta vacia
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "La lista esta vacia ", "Atención!"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
         return "listarProyectos";
     }
 
@@ -66,11 +157,11 @@ public class ProyectoBean implements Serializable {
         this.proyecto = proyecto;
     }
 
-    public List<Integer> getUsuarios() {
+    public List<SelectItem> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(List<Integer> usuarios) {
+    public void setUsuarios(List<SelectItem> usuarios) {
         this.usuarios = usuarios;
     }
 
@@ -81,5 +172,45 @@ public class ProyectoBean implements Serializable {
     public void setUsuariosProyecto(List<Integer> usuariosProyecto) {
         this.usuariosProyecto = usuariosProyecto;
     }
-    
+
+    public SelectItem getLiderSelected() {
+        return liderSelected;
+    }
+
+    public void setLiderSelected(SelectItem liderSelected) {
+        this.liderSelected = liderSelected;
+    }
+
+    public List<Proyecto> getProyectos() {
+        return proyectos;
+    }
+
+    public void setProyectos(List<Proyecto> proyectos) {
+        this.proyectos = proyectos;
+    }
+
+    public Usuario getLiderObject() {
+        return liderObject;
+    }
+
+    public void setLiderObject(Usuario liderObject) {
+        this.liderObject = liderObject;
+    }
+
+    public List<SelectItem> getTareas() {
+        return tareas;
+    }
+
+    public void setTareas(List<SelectItem> tareas) {
+        this.tareas = tareas;
+    }
+
+    public List<Integer> getTareasProyecto() {
+        return tareasProyecto;
+    }
+
+    public void setTareasProyecto(List<Integer> tareasProyecto) {
+        this.tareasProyecto = tareasProyecto;
+    }
+
 }

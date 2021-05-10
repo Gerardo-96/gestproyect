@@ -7,7 +7,10 @@ package manager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,13 +30,14 @@ public class ProyectoManager {
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
 
-        String sql = "INSERT INTO PROYECTO(NOMBRE,ID_LIDER) "
+        String sql = "INSERT INTO PROYECTO(NOMBRE,DESCRIPCION,ID_LIDER) "
                 + "VALUES(?,?,?)";
         try {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, proyecto.getNombre());
-            pst.setInt(2, proyecto.getLider().getIdUsuario());
+            pst.setString(2, proyecto.getDescripcion());
+            pst.setInt(3, proyecto.getIdLider());
             pst.execute();
             return true;
         } catch (SQLException ex) {
@@ -50,12 +54,13 @@ public class ProyectoManager {
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
 
-        String sql = "UPDATE PROYECTO SET NOMBRE=? WHERE ID_PROYECTO=?";
+        String sql = "UPDATE PROYECTO SET NOMBRE=?, SET DESCRIPCION =? WHERE ID_PROYECTO=?";
         try {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, proyecto.getNombre());
-            pst.setInt(2, proyecto.getIdProyecto());
+            pst.setString(1, proyecto.getDescripcion());
+            pst.setInt(3, proyecto.getIdProyecto());
             pst.execute();
             return true;
         } catch (SQLException ex) {
@@ -91,7 +96,7 @@ public class ProyectoManager {
         }
 
     }
-    public boolean asignarTareaProyecto(List<Tarea> tareas, Integer idProyecto) throws SQLException {
+    public boolean asignarTareaProyecto(List<Integer> idTareas, Integer idProyecto) throws SQLException {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
@@ -101,8 +106,8 @@ public class ProyectoManager {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
             pst.setInt(1, idProyecto);
-            for (Tarea tarea : tareas) {
-                pst.setInt(2, tarea.getIdTarea());
+            for (Integer tarea : idTareas) {
+                pst.setInt(2, tarea);
                 pst.execute();
             }
             return true;
@@ -113,7 +118,36 @@ public class ProyectoManager {
             }
             return false;
         }
-
     }
 
+    public List<Proyecto> listAll() throws SQLException {
+        List<Proyecto> listaProyectos = new ArrayList();
+        Proyecto proyecto = new Proyecto();
+        Connection conn = null;
+        Statement stmt = null;
+        DBCon dbcon = new DBCon();
+        String sql = "SELECT ID_PROYECTO, NOMBRE, DESCRIPCION, ID_LIDER"
+                + "FROM PROYECTO";
+        try {
+            conn = dbcon.getConnection();
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                proyecto.setIdProyecto(rs.getInt(1));
+                proyecto.setNombre(rs.getString(2));
+                proyecto.setDescripcion(rs.getString(3));
+                proyecto.setIdLider(rs.getInt(4));
+                listaProyectos.add(proyecto);
+                proyecto = new Proyecto();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listaProyectos;
+    }
+    
 }
