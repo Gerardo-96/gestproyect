@@ -212,8 +212,8 @@ public class UsuarioManager {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        UsuarioManager um = new UsuarioManager();
+//    public static void main(String[] args) throws SQLException {
+//        UsuarioManager um = new UsuarioManager();
 //        Usuario usuario = new Usuario();
 //        usuario.setUserName("ROSSVI");
 //        usuario.setNombre("Rossana");
@@ -221,6 +221,6 @@ public class UsuarioManager {
 //        usuario.setPassword("contraseña");
 //        usuario.setFechaCreacion(new java.sql.Date(new java.util.Date().getTime()));
 //        um.add(usuario);
-        um.listAll();
-    }
+//        um.listAll();
+//    }
 }

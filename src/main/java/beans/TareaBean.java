@@ -18,7 +18,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import manager.TareaManager;
 import model.Tarea;
-import model.Usuario;
 
 /**
  *
@@ -34,6 +33,8 @@ public class TareaBean implements Serializable {
     private SelectItem tareaPadreSelected;
 
     public String crear() {
+        tarea = new Tarea();
+        tarea.setVersion("1.0.0");
         return "agregarTarea";
     }
 
@@ -106,6 +107,25 @@ public class TareaBean implements Serializable {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "listarTareas";
+    }
+
+    public String aumentarVersion(String versionActual) {
+        String[] parts = versionActual.trim().split("\\.");
+        String version = "";
+        parts[parts.length-1] = String.valueOf(Integer.parseInt(parts[parts.length-1]) + 1);
+        for (int i = parts.length - 1; i > 0; i--) {
+            if (parts[i].equals("10")) {
+                parts[i] = "0";
+                parts[i-1] = String.valueOf(Integer.parseInt(parts[i-1]) + 1);
+            } else {
+                parts[i] = String.valueOf(Integer.parseInt(parts[i]) + 1);
+            }
+        }
+        version = parts[0];
+        for (int i = 1; i < parts.length; i++) {
+            version = version.concat(".").concat(parts[i]);
+        }
+        return version;
     }
 
     public Tarea getTarea() {

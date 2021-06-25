@@ -25,7 +25,7 @@ and open the template in the editor.
                         <p:outputLabel for="descripcion" value="Descripción"/>
                         <p:inputText id="descripcion" value="#{TareaBean.tarea.descripcion}"/>
                         <p:selectOneMenu id="idTareaPadre" value="#{TareaBean.tareaPadreSelected}" style="width:150px">
-                            <f:selectItem itemLabel="Seleccione" itemDisabled="true" />
+                            <f:selectItem itemLabel="Seleccione" itemDisabled="false" />
                             <f:selectItems value="#{TareaBean.tareasItem}"/>
                         </p:selectOneMenu>
                         <p:commandLink id="modificarTarea" action="#{TareaBean.editarTarea}" style="margin-right:20px;" ajax="false">

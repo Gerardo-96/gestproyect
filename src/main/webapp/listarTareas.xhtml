@@ -41,11 +41,14 @@
                             <p:inputText id="globalFilter" onkeyup="PF('proyectosTable').filter()" style="width:10rem" placeholder="Ingresar" />
                         </div>
                     </f:facet>
-                    <p:column headerText="Id Proyecto">
+                    <p:column headerText="Id Tarea">
                         <p:commandLink id="nonAjax" action="#{TareaBean.renderTarea}" style="margin-right:20px;" ajax="false">
                             <f:setPropertyActionListener target="#{TareaBean.tarea}" value="#{tarea}" />
                             <h:outputText value="#{tarea.idTarea}" />
                         </p:commandLink>
+                    </p:column>
+                    <p:column headerText="Versión">
+                        <h:outputText value="#{tarea.version}" />
                     </p:column>
                     <p:column headerText="Nombre">
                         <h:outputText value="#{tarea.nombre}" />
