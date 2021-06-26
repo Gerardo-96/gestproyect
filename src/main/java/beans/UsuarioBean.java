@@ -71,8 +71,7 @@ public class UsuarioBean implements Serializable {
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        limpiarCampos();
+        rolSelected = null;
         return "usuario";
     }
 

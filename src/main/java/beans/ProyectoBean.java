@@ -43,6 +43,7 @@ public class ProyectoBean implements Serializable {
     public String crear() {
         UsuarioManager um = new UsuarioManager();
         List<Usuario> usuariosTemp = new ArrayList<>();
+        usuarios = new ArrayList<>();
         try {
             usuariosTemp = um.listAll();
             SelectItem selectItem = new SelectItem();
@@ -88,7 +89,6 @@ public class ProyectoBean implements Serializable {
 
     public String renderProyecto() {
         UsuarioManager um = new UsuarioManager();
-<<<<<<< HEAD
         List<Usuario> usuariosTemp = new ArrayList<>();
         SelectItem selectItem = new SelectItem();
 
@@ -105,13 +105,6 @@ public class ProyectoBean implements Serializable {
             return "agregarProyecto";
         }
         return "agregarUsuarioProyecto";
-=======
-        try {
-            liderObject = um.getById(proyecto.getIdLider());
-        } catch (SQLException ex) {
-            Logger.getLogger(ProyectoManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "proyecto";
     }
 
     public String asignarTareas() {
@@ -138,7 +131,6 @@ public class ProyectoBean implements Serializable {
             return "";
         }
         return "listarProyectos";
->>>>>>> edd153c40d989992fd9665164ddc43cc89b61bfd
     }
 
     public String modificar() {
@@ -185,8 +177,6 @@ public class ProyectoBean implements Serializable {
         this.usuariosProyecto = usuariosProyecto;
     }
 
-<<<<<<< HEAD
-=======
     public SelectItem getLiderSelected() {
         return liderSelected;
     }
@@ -227,5 +217,4 @@ public class ProyectoBean implements Serializable {
         this.tareasProyecto = tareasProyecto;
     }
 
->>>>>>> edd153c40d989992fd9665164ddc43cc89b61bfd
 }
