@@ -27,31 +27,53 @@ public class Tarea {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "estado")
-    private String estado;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
     @Column(name = "nombre")
     private String nombre;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "version")
+    private String version;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "prioridad")
+    private String prioridad;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1)
+    @Column(name = "estado")
+    private String estado;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "descripcion")
     private String descripcion;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "observacion")
+    private String observacion;
+    @Basic(optional = false)
     @Column(name = "id_padre")
     private Integer idTareaPadre;
+    @Basic(optional = false)
+    @Column(name = "editable")
+    private boolean editable;
 
     public Tarea() {
     }
 
-    public Tarea(Integer idTarea, String estado, String nombre, String descripcion, Integer idTareaPadre) {
+    public Tarea(Integer idTarea, String nombre, String version, String prioridad, String estado, String descripcion, String observacion, Integer idTareaPadre, boolean editable) {
         this.idTarea = idTarea;
-        this.estado = estado;
         this.nombre = nombre;
+        this.version = version;
+        this.prioridad = prioridad;
+        this.estado = estado;
         this.descripcion = descripcion;
+        this.observacion = observacion;
         this.idTareaPadre = idTareaPadre;
+        this.editable = editable;
     }
 
     public Integer getIdTarea() {
@@ -62,20 +84,36 @@ public class Tarea {
         this.idTarea = idTarea;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getDescripcion() {
@@ -86,6 +124,14 @@ public class Tarea {
         this.descripcion = descripcion;
     }
 
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
     public Integer getIdTareaPadre() {
         return idTareaPadre;
     }
@@ -94,4 +140,13 @@ public class Tarea {
         this.idTareaPadre = idTareaPadre;
     }
 
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    
 }

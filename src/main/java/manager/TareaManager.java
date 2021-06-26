@@ -7,9 +7,14 @@ package manager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Rol;
 import model.Tarea;
 import utils.DBCon;
 
@@ -65,6 +70,38 @@ public class TareaManager {
             }
             return false;
         }
+    }
+    
+    public List<Tarea> listAll() throws SQLException {
+        List<Tarea> listaTareas = new ArrayList();
+        Tarea tarea = new Tarea();
+        Connection conn = null;
+        Statement stmt = null;
+        DBCon dbcon = new DBCon();
+        String sql = "SELECT ID_TAREA, NOMBRE, ESTADO, DESCRIPCION, ID_PADRE, EDITABLE "
+                + "FROM TAREA";
+        try {
+            conn = dbcon.getConnection();
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                tarea.setIdTarea(rs.getInt(1));
+                tarea.setNombre(rs.getString(2));
+                tarea.setEstado(rs.getString(3));
+                tarea.setDescripcion(rs.getString(4));
+                tarea.setIdTareaPadre(rs.getInt(5));
+                tarea.setEditable(rs.getBoolean(5));
+                listaTareas.add(tarea);
+                tarea = new Tarea();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listaTareas;
     }
     
 }

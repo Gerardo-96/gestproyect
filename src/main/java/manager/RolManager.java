@@ -186,13 +186,13 @@ public class RolManager {
         return listaRoles;
     }
 
-    public static void main(String[] args) throws SQLException {
-        RolManager um = new RolManager();
-        Rol rol = new Rol();
-        rol.setCodigoRol("Admin");
-        rol.setDescripcion("Administrador");
-        rol.setFechaCreacion(new java.sql.Date(new java.util.Date().getTime()));
-
-        um.add(rol);
-    }
+//    public static void main(String[] args) throws SQLException {
+//        RolManager um = new RolManager();
+//        Rol rol = new Rol();
+//        rol.setCodigoRol("Admin");
+//        rol.setDescripcion("Administrador");
+//        rol.setFechaCreacion(new java.sql.Date(new java.util.Date().getTime()));
+//
+//        um.add(rol);
+//    }
 }

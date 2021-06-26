@@ -35,8 +35,8 @@ public class DBCon {
         }
     }
     
-    public static void main(String[] args) {
-        DBCon conn = new DBCon();
-        conn.getConnection();
-    }
+//    public static void main(String[] args) {
+//        DBCon conn = new DBCon();
+//        conn.getConnection();
+//    }
 }

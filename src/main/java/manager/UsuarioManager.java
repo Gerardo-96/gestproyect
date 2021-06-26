@@ -26,13 +26,45 @@ import utils.Encript;
  * @author usuario
  */
 public class UsuarioManager {
-        Encript encript = new Encript();
+
+    Encript encript = new Encript();
+
+    public Usuario getById(Integer id) throws SQLException {
+        Usuario usuario = new Usuario();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        DBCon dbcon = new DBCon();
+        String sql = "SELECT ID_USUARIO, USERNAME, NOMBRE, APELLIDO,FECHA_CREACION,"
+                + "PASSWORD FROM USUARIO "
+                + "WHERE ID_USUARIO = ?";
+        try {
+            conn = dbcon.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                usuario.setIdUsuario(rs.getInt(1));
+                usuario.setUserName(rs.getString(2));
+                usuario.setNombre(rs.getString(3));
+                usuario.setApellido(rs.getString(4));
+                usuario.setFechaCreacion(rs.getDate(5));
+                usuario.setPassword(encript.desencriptar(rs.getString(6)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return usuario;
+    }
 
     public boolean add(Usuario usuario) throws SQLException {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
-        
+
         String sql = "INSERT INTO USUARIO(USERNAME,NOMBRE,APELLIDO,FECHA_CREACION,PASSWORD) "
                 + "VALUES(?,?,?,?,?)";
         try {
@@ -53,12 +85,12 @@ public class UsuarioManager {
             return false;
         }
     }
-    
+
     public boolean delete(Usuario usuario) throws SQLException {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
-        
+
         String sql = "DELETE FROM USUARIO WHERE USERNAME = ?";
         try {
             conn = dbcon.getConnection();
@@ -74,12 +106,12 @@ public class UsuarioManager {
             return false;
         }
     }
-    
+
     public boolean update(Usuario usuario) throws SQLException {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
-        
+
         String sql = "UPDATE USUARIO SET USERNAME=?,NOMBRE=?,APELLIDO=?,PASSWORD=? "
                 + "WHERE USERNAME=?";
         try {
@@ -100,8 +132,7 @@ public class UsuarioManager {
             return false;
         }
     }
-    
-    
+
     public List<Usuario> listAll() throws SQLException {
         List<Usuario> listaUsuarios = new ArrayList();
         Usuario usuario = new Usuario();
@@ -114,8 +145,8 @@ public class UsuarioManager {
             conn = dbcon.getConnection();
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            
-            while (rs.next()) { 
+
+            while (rs.next()) {
                 usuario.setUserName(rs.getString(1));
                 usuario.setNombre(rs.getString(2));
                 usuario.setApellido(rs.getString(3));
@@ -126,7 +157,7 @@ public class UsuarioManager {
                 listaUsuarios.add(usuario);
                 usuario = new Usuario();
             }
-        }catch(SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(UsuarioManager.class.getName()).log(Level.SEVERE, null, ex);
             if (conn != null) {
                 conn.close();
@@ -134,8 +165,8 @@ public class UsuarioManager {
         }
         return listaUsuarios;
     }
-    
-    public boolean authenticate(String userName,String password)throws SQLException {
+
+    public boolean authenticate(String userName, String password) throws SQLException {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
@@ -155,14 +186,14 @@ public class UsuarioManager {
             }
             return false;
         }
-        
+
     }
-    
-    public boolean asignarRol(Usuario usuario, Rol rol) throws SQLException{
+
+    public boolean asignarRol(Usuario usuario, Rol rol) throws SQLException {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
-        
+
         String sql = "INSERT INTO ROL_USUARIO(ID_USUARIO,ID_ROL) "
                 + "VALUES(?,?)";
         try {
@@ -181,8 +212,8 @@ public class UsuarioManager {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        UsuarioManager um = new UsuarioManager();
+//    public static void main(String[] args) throws SQLException {
+//        UsuarioManager um = new UsuarioManager();
 //        Usuario usuario = new Usuario();
 //        usuario.setUserName("ROSSVI");
 //        usuario.setNombre("Rossana");
@@ -190,6 +221,6 @@ public class UsuarioManager {
 //        usuario.setPassword("contraseña");
 //        usuario.setFechaCreacion(new java.sql.Date(new java.util.Date().getTime()));
 //        um.add(usuario);
-        um.listAll();
-    }
+//        um.listAll();
+//    }
 }

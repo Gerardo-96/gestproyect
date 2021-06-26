@@ -9,7 +9,7 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Roles</title>
+        <title>Tareas</title>
         <link type="text/css"
               href="${facesContext.externalContext.requestContextPath}/resources/css/style.css"
               rel="stylesheet" />
@@ -27,10 +27,10 @@
         <div class="card">
             <h:form>
 
-            <center><font size="18">Lista de roles</font></center>
-                <p:dataTable var="rol" value="#{RolBean.roles}" rows="10"
-                             widgetVar="rolTable"
-                             emptyMessage="No se encontraron roles"
+                <center><font size="18">Lista de tareas</font></center>
+                <p:dataTable var="tarea" value="#{TareaBean.tareas}" rows="10"
+                             widgetVar="tareasTable"
+                             emptyMessage="No se encontraron tareas"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} resultados"
@@ -38,20 +38,23 @@
                     <f:facet name="header">
                         <div class="p-d-flex p-ai-center p-jc-between">
                             <span>Filtar</span>
-                            <p:inputText id="globalFilter" onkeyup="PF('rolTable').filter()" style="width:10rem" placeholder="Ingresar" />
+                            <p:inputText id="globalFilter" onkeyup="PF('proyectosTable').filter()" style="width:10rem" placeholder="Ingresar" />
                         </div>
                     </f:facet>
-                    <p:column headerText="Código Rol">
-                        <p:commandLink id="nonAjax" action="rol" style="margin-right:20px;" ajax="false">
-                            <f:setPropertyActionListener target="#{RolBean.rol}" value="#{rol}" />
-                            <h:outputText value="#{rol.codigoRol}" />
+                    <p:column headerText="Id Tarea">
+                        <p:commandLink id="nonAjax" action="#{TareaBean.renderTarea}" style="margin-right:20px;" ajax="false">
+                            <f:setPropertyActionListener target="#{TareaBean.tarea}" value="#{tarea}" />
+                            <h:outputText value="#{tarea.idTarea}" />
                         </p:commandLink>
                     </p:column>
-                    <p:column headerText="Descripcion">
-                        <h:outputText value="#{rol.descripcion}" />
+                    <p:column headerText="Versión">
+                        <h:outputText value="#{tarea.version}" />
                     </p:column>
-                    <p:column headerText="Fecha Creación">
-                        <h:outputText value="#{rol.fechaCreacion}" />
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{tarea.nombre}" />
+                    </p:column>
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{tarea.estado}" />
                     </p:column>
                 </p:dataTable>
             </h:form>
