@@ -60,6 +60,7 @@ public class Tarea {
     @Basic(optional = false)
     @Column(name = "editable")
     private boolean editable;
+    private boolean seleccionada;
 
     public Tarea() {
     }
@@ -148,5 +149,12 @@ public class Tarea {
         this.editable = editable;
     }
 
+    public boolean isSeleccionada() {
+        return seleccionada;
+    }
+
+    public void setSeleccionada(boolean seleccionada) {
+        this.seleccionada = seleccionada;
+    }
     
 }

@@ -26,11 +26,11 @@
     <h:body>
         <div class="card">
             <h:form>
-                <p:inputText id="nombre" value="#{TareaBean.nombreLineaBase}"/>
-                <p:outputLabel for="nombre" value="Estado"/>
-                <p:dataTable var="tarea" value="#{TareaBean.tareas}" rows="10"
+
+                <center><font size="18">Lista de tareas</font></center>
+                <p:dataTable var="tarea" value="#{TareaBean.tareasEditables}" rows="10"
                              widgetVar="tareasTable"
-                             emptyMessage="No se encontraron tareas"
+                             emptyMessage="No se encontraron tareas editables"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} resultados"
@@ -38,10 +38,9 @@
                     <f:facet name="header">
                         <div class="p-d-flex p-ai-center p-jc-between">
                             <span>Filtar</span>
-                            <p:inputText id="globalFilter" onkeyup="PF('proyectosTable').filter()" style="width:10rem" placeholder="Ingresar" />
+                            <p:inputText id="globalFilter" onkeyup="PF('tareasTable').filter()" style="width:10rem" placeholder="Ingresar" />
                         </div>
                     </f:facet>
-                    <p:selectBooleanCheckbox value="#{tarea.seleccionada}"/>
                     <p:column headerText="Id Tarea">
                         <p:commandLink id="nonAjax" action="#{TareaBean.renderTarea}" style="margin-right:20px;" ajax="false">
                             <f:setPropertyActionListener target="#{TareaBean.tarea}" value="#{tarea}" />
@@ -64,6 +63,9 @@
                         <h:outputText value="#{tarea.estado}"/>
                     </p:column>
                 </p:dataTable>
+                <p:commandLink id="agregarLineaBase" action="#{TareaBean.crearLineaBase}" style="margin-right:20px;" ajax="false">
+                    <h:outputText value="Agregar"/>
+                </p:commandLink>  
             </h:form>
         </div>
     </h:body>

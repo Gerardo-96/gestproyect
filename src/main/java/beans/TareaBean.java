@@ -31,6 +31,8 @@ public class TareaBean implements Serializable {
     private List<Tarea> tareas;
     private List<SelectItem> tareasItem;
     private SelectItem tareaPadreSelected;
+    private String nombreLineaBase;
+    private List<Tarea> tareasEditables;
 
     public String crear() {
         tarea = new Tarea();
@@ -95,13 +97,18 @@ public class TareaBean implements Serializable {
         TareaManager tm = new TareaManager();
         tarea.setIdTareaPadre((Integer) tareaPadreSelected.getValue());
         try {
-            if (tm.update(tarea)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "El rol se actualizo con Exito", " Exito!"));
-            } else {
+            if (tm.esLineaBase(tarea.getIdTarea())) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error al intentar actualizar el rol", " Error!"));
-                return "";
+                        "No se puede actualizar la tarea porque forma parte de una linea base", " Error!"));
+            } else {
+                if (tm.update(tarea)) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "La tarea actualizo con Exito", " Exito!"));
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error al intentar actualizar la tarea", " Error!"));
+                    return "";
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,11 +119,11 @@ public class TareaBean implements Serializable {
     public String aumentarVersion(String versionActual) {
         String[] parts = versionActual.trim().split("\\.");
         String version = "";
-        parts[parts.length-1] = String.valueOf(Integer.parseInt(parts[parts.length-1]) + 1);
+        parts[parts.length - 1] = String.valueOf(Integer.parseInt(parts[parts.length - 1]) + 1);
         for (int i = parts.length - 1; i > 0; i--) {
             if (parts[i].equals("10")) {
                 parts[i] = "0";
-                parts[i-1] = String.valueOf(Integer.parseInt(parts[i-1]) + 1);
+                parts[i - 1] = String.valueOf(Integer.parseInt(parts[i - 1]) + 1);
             } else {
                 parts[i] = String.valueOf(Integer.parseInt(parts[i]) + 1);
             }
@@ -126,6 +133,27 @@ public class TareaBean implements Serializable {
             version = version.concat(".").concat(parts[i]);
         }
         return version;
+    }
+
+    public String agregarLineaBase() {
+        TareaManager tm = new TareaManager();
+//        tareasEditables = tm.listarTareasEditables();
+        return "agregarLineaBase";
+    }
+
+    public String crearLineaBase() {
+        TareaManager tm = new TareaManager();
+        tarea.setIdTareaPadre((Integer) tareaPadreSelected.getValue());
+        try {
+            if (tm.addLineaBase(nombreLineaBase, tareasSeleccionadas(tareasEditables))) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Registro Exitoso!", " Exitoso!"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TareaManager.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+        return "inicio";
     }
 
     public Tarea getTarea() {
@@ -160,4 +188,29 @@ public class TareaBean implements Serializable {
         this.tareaPadreSelected = tareaPadreSelected;
     }
 
+    public String getNombreLineaBase() {
+        return nombreLineaBase;
+    }
+
+    public void setNombreLineaBase(String nombreLineaBase) {
+        this.nombreLineaBase = nombreLineaBase;
+    }
+
+    public List<Tarea> getTareasEditables() {
+        return tareasEditables;
+    }
+
+    public void setTareasEditables(List<Tarea> tareasEditables) {
+        this.tareasEditables = tareasEditables;
+    }
+
+    public List<Tarea> tareasSeleccionadas(List<Tarea> tareasEditables) {
+        List<Tarea> seleccionadas = new ArrayList<>();
+        for (Tarea tareaEditable : tareasEditables) {
+            if (tareaEditable.isSeleccionada()){
+                seleccionadas.add(tareaEditable);
+            }
+        }
+        return seleccionadas;
+    }
 }
