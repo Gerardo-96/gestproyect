@@ -43,6 +43,7 @@ public class ProyectoBean implements Serializable {
     public String crear() {
         UsuarioManager um = new UsuarioManager();
         List<Usuario> usuariosTemp = new ArrayList<>();
+        usuarios = new ArrayList<>();
         try {
             usuariosTemp = um.listAll();
             SelectItem selectItem = new SelectItem();
@@ -88,12 +89,22 @@ public class ProyectoBean implements Serializable {
 
     public String renderProyecto() {
         UsuarioManager um = new UsuarioManager();
+        List<Usuario> usuariosTemp = new ArrayList<>();
+        SelectItem selectItem = new SelectItem();
+
         try {
-            liderObject = um.getById(proyecto.getIdLider());
+            usuariosTemp = um.listAll();
+            for (Usuario usuario : usuariosTemp) {
+                selectItem.setLabel(usuario.getUserName());
+                selectItem.setValue(usuario.getIdUsuario());
+                usuarios.add(selectItem);
+                selectItem = new SelectItem(); 
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(ProyectoManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProyectoBean.class.getName()).log(Level.SEVERE, null, ex);
+            return "agregarProyecto";
         }
-        return "proyecto";
+        return "agregarUsuarioProyecto";
     }
 
     public String asignarTareas() {
