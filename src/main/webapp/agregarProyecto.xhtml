@@ -22,15 +22,16 @@ and open the template in the editor.
                     <p:inputText id="nombre" value="#{ProyectoBean.proyecto.nombre}"/>
                     <p:outputLabel for="descripcion" value="Descripcion"/>
                     <p:inputText id="descripcion" value="#{ProyectoBean.proyecto.descripcion}" size="350"/>
-                    <p:outputLabel for="lider" value="Lider"/>
-                    <p:selectOneMenu id="lider" value="#{ProyectoBean.liderSelected}" style="width:150px">
+<!--                    <p:outputLabel for="lider" value="Lider"/>-->
+<!--                    <p:selectOneMenu id="lider" value="#{ProyectoBean.liderSelected}">
+                        <p:ajax event="change" process="@this" />
                         <f:selectItem itemLabel="Seleccione" itemDisabled="true" />
-                        <f:selectItems value="#{ProyectoBean.usuarios}"/>
-                    </p:selectOneMenu>
+                        <f:selectItems value="#{ProyectoBean.usuarios}" var="liderSeleccionado"/>
+                    </p:selectOneMenu>-->
                 </h:panelGrid>
-                <p:commandLink id="agregarProyecto" action="#{ProyectoBean.agregar}" style="margin-right:20px;" ajax="false">
+                <h:commandLink id="agregarProyecto" action="#{ProyectoBean.agregarProyecto}" style="margin-right:20px;">
                     <h:outputText value="Crear"/>
-                </p:commandLink>            
+                </h:commandLink>            
             </h:form>
         </div>
     </h:body>

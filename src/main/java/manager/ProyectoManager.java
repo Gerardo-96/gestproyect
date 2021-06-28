@@ -30,14 +30,16 @@ public class ProyectoManager {
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
 
-        String sql = "INSERT INTO PROYECTO(NOMBRE,DESCRIPCION,ID_LIDER) "
-                + "VALUES(?,?,?)";
+//        String sql = "INSERT INTO PROYECTO(NOMBRE,DESCRIPCION,ID_LIDER) "
+//                + "VALUES(?,?,?)";
+        String sql = "INSERT INTO PROYECTO(NOMBRE,DESCRIPCION) "
+                + "VALUES(?,?)";
         try {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, proyecto.getNombre());
             pst.setString(2, proyecto.getDescripcion());
-            pst.setInt(3, proyecto.getIdLider());
+//            pst.setInt(3, proyecto.getIdLider());
             pst.execute();
             return true;
         } catch (SQLException ex) {
@@ -54,12 +56,12 @@ public class ProyectoManager {
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
 
-        String sql = "UPDATE PROYECTO SET NOMBRE=?, SET DESCRIPCION =? WHERE ID_PROYECTO=?";
+        String sql = "UPDATE PROYECTO SET NOMBRE=?, DESCRIPCION =? WHERE ID_PROYECTO=?";
         try {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, proyecto.getNombre());
-            pst.setString(1, proyecto.getDescripcion());
+            pst.setString(2, proyecto.getDescripcion());
             pst.setInt(3, proyecto.getIdProyecto());
             pst.execute();
             return true;
@@ -96,6 +98,7 @@ public class ProyectoManager {
         }
 
     }
+
     public boolean asignarTareaProyecto(List<Integer> idTareas, Integer idProyecto) throws SQLException {
         Connection conn = null;
         PreparedStatement pst = null;
@@ -126,7 +129,7 @@ public class ProyectoManager {
         Connection conn = null;
         Statement stmt = null;
         DBCon dbcon = new DBCon();
-        String sql = "SELECT ID_PROYECTO, NOMBRE, DESCRIPCION, ID_LIDER"
+        String sql = "SELECT ID_PROYECTO, NOMBRE, DESCRIPCION, ID_LIDER "
                 + "FROM PROYECTO";
         try {
             conn = dbcon.getConnection();
@@ -149,5 +152,5 @@ public class ProyectoManager {
         }
         return listaProyectos;
     }
-    
+
 }

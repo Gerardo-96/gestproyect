@@ -43,6 +43,7 @@ public class TareaBean implements Serializable {
     public String renderTarea() {
         TareaManager tm = new TareaManager();
         List<Tarea> tareasTemp = new ArrayList<>();
+        tareasItem = new ArrayList<>();
         try {
             tareasTemp = tm.listAll();
             SelectItem selectItem = new SelectItem();
@@ -61,7 +62,9 @@ public class TareaBean implements Serializable {
 
     public String agregar() {
         TareaManager tm = new TareaManager();
-        tarea.setIdTareaPadre((Integer) tareaPadreSelected.getValue());
+        if (tareaPadreSelected != null) {
+            tarea.setIdTareaPadre((Integer) tareaPadreSelected.getValue());
+        }
         try {
             if (tm.add(tarea)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -90,17 +93,16 @@ public class TareaBean implements Serializable {
             Logger.getLogger(TareaBean.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
-        return "listarTarea";
+        return "listarTareas";
     }
 
     public String editarTarea() {
         TareaManager tm = new TareaManager();
-        tarea.setIdTareaPadre((Integer) tareaPadreSelected.getValue());
+        if (tareaPadreSelected != null) {
+            tarea.setIdTareaPadre((Integer) tareaPadreSelected.getValue());
+        }
         try {
             if (tm.esLineaBase(tarea.getIdTarea())) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "No se puede actualizar la tarea porque forma parte de una linea base", " Error!"));
-            } else {
                 if (tm.update(tarea)) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "La tarea actualizo con Exito", " Exito!"));
@@ -109,6 +111,9 @@ public class TareaBean implements Serializable {
                             "Error al intentar actualizar la tarea", " Error!"));
                     return "";
                 }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "No se puede actualizar la tarea porque forma parte de una linea base", " Error!"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,7 +212,7 @@ public class TareaBean implements Serializable {
     public List<Tarea> tareasSeleccionadas(List<Tarea> tareasEditables) {
         List<Tarea> seleccionadas = new ArrayList<>();
         for (Tarea tareaEditable : tareasEditables) {
-            if (tareaEditable.isSeleccionada()){
+            if (tareaEditable.isSeleccionada()) {
                 seleccionadas.add(tareaEditable);
             }
         }

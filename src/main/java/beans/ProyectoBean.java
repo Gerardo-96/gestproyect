@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import manager.ProyectoManager;
 import manager.TareaManager;
@@ -36,7 +37,7 @@ public class ProyectoBean implements Serializable {
     List<Tarea> tareas;
     private List<Integer> tareasProyecto;
     private List<Integer> usuariosProyecto;
-    private SelectItem liderSelected;
+    private SelectItem liderSelected = new SelectItem();
     private List<Proyecto> proyectos;
     private Usuario liderObject;
 
@@ -44,14 +45,13 @@ public class ProyectoBean implements Serializable {
         UsuarioManager um = new UsuarioManager();
         List<Usuario> usuariosTemp = new ArrayList<>();
         usuarios = new ArrayList<>();
+        proyecto = new Proyecto();
+//        liderSelected = new SelectItem();
         try {
             usuariosTemp = um.listAll();
             SelectItem selectItem = new SelectItem();
             for (Usuario usuario : usuariosTemp) {
-                selectItem.setLabel(usuario.getUserName());
-                selectItem.setValue(usuario.getIdUsuario());
-                usuarios.add(selectItem);
-                selectItem = new SelectItem();
+                usuarios.add(new SelectItem(String.valueOf(usuario.getIdUsuario()),usuario.getUserName()));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProyectoBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,9 +60,9 @@ public class ProyectoBean implements Serializable {
         return "crearProyecto";
     }
 
-    public String agregar() {
+    public String agregarProyecto() {
         ProyectoManager pm = new ProyectoManager();
-        proyecto.setIdLider((Integer) liderSelected.getValue());
+//        proyecto.setIdLider((Integer) liderSelected.getValue());
         try {
             if (pm.add(proyecto)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -91,20 +91,20 @@ public class ProyectoBean implements Serializable {
         UsuarioManager um = new UsuarioManager();
         List<Usuario> usuariosTemp = new ArrayList<>();
         SelectItem selectItem = new SelectItem();
-
+        usuarios = new ArrayList<>();
         try {
             usuariosTemp = um.listAll();
             for (Usuario usuario : usuariosTemp) {
                 selectItem.setLabel(usuario.getUserName());
                 selectItem.setValue(usuario.getIdUsuario());
                 usuarios.add(selectItem);
-                selectItem = new SelectItem(); 
+                selectItem = new SelectItem();
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProyectoBean.class.getName()).log(Level.SEVERE, null, ex);
             return "agregarProyecto";
         }
-        return "agregarUsuarioProyecto";
+        return "proyecto";
     }
 
     public String asignarTareas() {
@@ -123,7 +123,7 @@ public class ProyectoBean implements Serializable {
         ProyectoManager pm = new ProyectoManager();
         try {
             pm.update(proyecto);
-            if (!tareasProyecto.isEmpty()) {
+            if (tareasProyecto != null && !tareasProyecto.isEmpty()) {
                 pm.asignarTareaProyecto(tareasProyecto, proyecto.getIdProyecto());
             }
         } catch (SQLException ex) {
@@ -215,6 +215,10 @@ public class ProyectoBean implements Serializable {
 
     public void setTareasProyecto(List<Integer> tareasProyecto) {
         this.tareasProyecto = tareasProyecto;
+    }
+    
+    public void prueba (ValueChangeEvent event){
+        System.out.println(event.getOldValue() + " new : " + event.getNewValue());
     }
 
 }

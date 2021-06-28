@@ -24,16 +24,19 @@ and open the template in the editor.
                         <p:inputText id="nombre" value="#{TareaBean.tarea.nombre}"/>
                         <p:outputLabel for="descripcion" value="Descripción"/>
                         <p:inputText id="descripcion" value="#{TareaBean.tarea.descripcion}"/>
-                        <p:outputLabel for="descripcion" value="Versión"/>
-                        <p:inputText id="descripcion" value="#{TareaBean.tarea.version}"/>
-                        <p:outputLabel for="nombre" value="Observacion"/>
-                        <p:inputText id="nombre" value="#{TareaBean.tarea.observacion}"/>
-                        <p:outputLabel for="nombre" value="Estado"/>
-                        <p:selectOneMenu id="idTareaPadre" value="#{TareaBean.tarea.estado}" style="width:150px">
+                        <p:outputLabel for="version" value="Versión"/>
+                        <p:inputText id="version" value="#{TareaBean.tarea.version}"/>
+                        <p:outputLabel for="observacion" value="Observacion"/>
+                        <p:inputText id="observacion" value="#{TareaBean.tarea.observacion}"/>
+                        <p:outputLabel for="prioridad" value="Prioridad"/>
+                        <p:inputText id="prioridad" value="#{TareaBean.tarea.prioridad}"/>
+                        <p:outputLabel for="estado" value="Estado"/>
+                        <p:selectOneMenu id="estado" value="#{TareaBean.tarea.estado}" style="width:150px">
                             <f:selectItem itemLabel="Iniciado" itemValue="I"/>
                             <f:selectItem itemLabel="Pendiente" itemValue="P"/>
                             <f:selectItem itemLabel="Finalizado" itemValue="F"/>
                         </p:selectOneMenu>
+                        <p:outputLabel for="idTareaPadre" value="Tarea Padre"/>
                         <p:selectOneMenu id="idTareaPadre" value="#{TareaBean.tareaPadreSelected}" style="width:150px">
                             <f:selectItem itemLabel="Seleccione" itemDisabled="true" />
                             <f:selectItems value="#{TareaBean.tareasItem}"/>

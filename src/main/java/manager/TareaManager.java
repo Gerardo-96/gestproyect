@@ -29,9 +29,15 @@ public class TareaManager {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
+        String sql = "";
+        if (tarea.getIdTareaPadre() != null) {
+            sql = "INSERT INTO TAREA(ESTADO,NOMBRE,DESCRIPCION, VERSION,PRIORIDAD,OBSERVACION, EDITABLE, ID_PADRE) "
+                    + "VALUES(?,?,?,?,?,?,?,?)";
+        } else {
+            sql = "INSERT INTO TAREA(ESTADO,NOMBRE,DESCRIPCION, VERSION,PRIORIDAD,OBSERVACION, EDITABLE) "
+                    + "VALUES(?,?,?,?,?,?,?)";
+        }
 
-        String sql = "INSERT INTO TAREA(ESTADO,NOMBRE,DESCRIPCION, VERSION,PRIORIDAD,OBSERVACION, ID_PADRE, EDITABLE) "
-                + "VALUES(?,?,?,?,?,?,?,?)";
         try {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
@@ -41,8 +47,11 @@ public class TareaManager {
             pst.setString(4, tarea.getVersion());
             pst.setString(5, tarea.getPrioridad());
             pst.setString(6, tarea.getObservacion());
-            pst.setInt(7, tarea.getIdTareaPadre());
-            pst.setBoolean(8, tarea.isEditable());
+            pst.setBoolean(7, true);
+            if (tarea.getIdTareaPadre() != null) {
+                pst.setInt(8, tarea.getIdTareaPadre());
+
+            }
             pst.execute();
             return true;
         } catch (SQLException ex) {
@@ -58,8 +67,12 @@ public class TareaManager {
         Connection conn = null;
         PreparedStatement pst = null;
         DBCon dbcon = new DBCon();
-
-        String sql = "UPDATE TAREA SET ESTADO=?,NOMBRE=?, DESCRIPCION=?, VERSION=?, PRIORIDAD=?, OBSERVACION=?, EDITABLE=? WHERE ID_TAREA=?";
+        String sql = "";
+        if (tarea.getIdTareaPadre() != 0) {
+            sql = "UPDATE TAREA SET ESTADO=?,NOMBRE=?, DESCRIPCION=?, VERSION=?, PRIORIDAD=?, OBSERVACION=?, EDITABLE=?, ID_PADRE =? WHERE ID_TAREA=?";
+        } else {
+            sql = "UPDATE TAREA SET ESTADO=?,NOMBRE=?, DESCRIPCION=?, VERSION=?, PRIORIDAD=?, OBSERVACION=?, EDITABLE=? WHERE ID_TAREA=?";
+        }
         try {
             conn = dbcon.getConnection();
             pst = conn.prepareStatement(sql);
@@ -70,7 +83,12 @@ public class TareaManager {
             pst.setString(5, tarea.getPrioridad());
             pst.setString(6, tarea.getObservacion());
             pst.setBoolean(7, tarea.isEditable());
-            pst.setInt(8, tarea.getIdTarea());
+            if (tarea.getIdTareaPadre() != 0) {
+                pst.setInt(8, tarea.getIdTareaPadre());
+                pst.setInt(9, tarea.getIdTarea());
+            } else {
+                pst.setInt(8, tarea.getIdTarea());
+            }
             pst.execute();
             return true;
         } catch (SQLException ex) {
@@ -203,7 +221,7 @@ public class TareaManager {
         Connection conn = null;
         PreparedStatement stmt = null;
         DBCon dbcon = new DBCon();
-        String sql = "SELECT EDITABLE"
+        String sql = "SELECT EDITABLE "
                 + "FROM TAREA "
                 + "WHERE ID_TAREA = ?";
         try {
