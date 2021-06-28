@@ -176,9 +176,9 @@ CREATE TABLE public.tarea
 	nombre character varying(50) NOT NULL,
 	descripicon character varying(200) NOT NULL,
 	id_padre integer NOT NULL,
-	version char(10) NOT NULL,
-	prioridad char (10) NOT NULL,
-	observacion char(25) NOT NULL,
+	version character varying(20) NOT NULL,
+	prioridad character varying(10) NOT NULL,
+	observacion character varying(200) NOT NULL,
 	editable boolean not null default true,
 	CONSTRAINT tarea_pkey PRIMARY KEY (id_tarea)
 );
@@ -279,3 +279,46 @@ CREATE TRIGGER trig_id_linea_base
     ON public.linea_base
     FOR EACH ROW
     EXECUTE PROCEDURE public.id_linea_base();
+	
+
+CREATE TABLE public.fase
+(
+    id_fase integer NOT NULL,
+	nombre character varying(100) NOT NULL,
+	id_tarea integer NOT NULL,
+	id_proyecto integer NOT NULL,
+	CONSTRAINT fase_pkey PRIMARY KEY (id_fase),
+	CONSTRAINT fk_fase_tr
+	 FOREIGN KEY(id_tarea) 
+	  REFERENCES tarea(id_tarea),
+	CONSTRAINT fk_fase_py
+     FOREIGN KEY(id_proyecto) 
+	  REFERENCES proyecto(id_proyecto)
+);
+
+CREATE SEQUENCE public.sc_id_fase
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+
+CREATE FUNCTION public.id_fase()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+NEW.id_fase := NEXTVAL('sc_id_fase');
+RETURN NEW;
+END;
+$BODY$;
+
+	
+CREATE TRIGGER trig_id_fase
+    BEFORE INSERT
+    ON public.fase
+    FOR EACH ROW
+    EXECUTE PROCEDURE public.id_fase();
