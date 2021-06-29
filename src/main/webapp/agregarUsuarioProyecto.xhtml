@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Proyecto</title>
+        <link type="text/css"
+              href="${facesContext.externalContext.requestContextPath}/resources/css/style.css"
+              rel="stylesheet" />
+        <link type="image/x-icon"
+              href="${facesContext.externalContext.requestContextPath}/resources/images/favicon.ico"
+              rel="shortcut icon" />
+        <style type="text/css">
+            .ui-filter-column .ui-column-customfilter .custom-filter {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <center><font size="18">Proyecto</font>
+                    <h:panelGroup>
+                        <h:panelGrid columns="1" cellpadding="7">
+                            <p:selectManyMenu id="advanced" value="#{ProyectoBean.usuariosProyecto}"
+                                              var="users" filter="true" filterMatchMode="contains" showCheckbox="true" styleClass="manymenu-advanced">
+                                <f:selectItems value="#{ProyectoBean.usuarios}" var="user" itemLabel="#{user.label}"
+                                               itemValue="#{user.description}"/>
+                            </p:selectManyMenu>
+                            <p:commandLink action="#{ProyectoBean.agregar}" style="margin-right:20px;" ajax="false">
+                                <h:outputText value="Agregar"/>
+                            </p:commandLink>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </center>
+            </h:form>
+        </div>
+    </h:body>
+</html>

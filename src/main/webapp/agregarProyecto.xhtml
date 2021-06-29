@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Proyecto</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+                <center><font size="18">Proyecto</font></center>
+                <h:panelGrid columns="2" cellpadding="7">
+                    <p:outputLabel for="nombre" value="Nombre"/>
+                    <p:inputText id="nombre" value="#{ProyectoBean.proyecto.nombre}"/>
+                    <p:outputLabel for="descripcion" value="Descripcion"/>
+                    <p:inputText id="descripcion" value="#{ProyectoBean.proyecto.descripcion}" size="350"/>
+<!--                    <p:outputLabel for="lider" value="Lider"/>-->
+<!--                    <p:selectOneMenu id="lider" value="#{ProyectoBean.liderSelected}">
+                        <p:ajax event="change" process="@this" />
+                        <f:selectItem itemLabel="Seleccione" itemDisabled="true" />
+                        <f:selectItems value="#{ProyectoBean.usuarios}" var="liderSeleccionado"/>
+                    </p:selectOneMenu>-->
+                </h:panelGrid>
+                <h:commandLink id="agregarProyecto" action="#{ProyectoBean.agregarProyecto}" style="margin-right:20px;">
+                    <h:outputText value="Crear"/>
+                </h:commandLink>            
+            </h:form>
+        </div>
+    </h:body>
+</html>

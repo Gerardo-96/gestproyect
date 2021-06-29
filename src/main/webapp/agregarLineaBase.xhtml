@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Tareas</title>
+        <link type="text/css"
+              href="${facesContext.externalContext.requestContextPath}/resources/css/style.css"
+              rel="stylesheet" />
+        <link type="image/x-icon"
+              href="${facesContext.externalContext.requestContextPath}/resources/images/favicon.ico"
+              rel="shortcut icon" />
+        <style type="text/css">
+            .ui-filter-column .ui-column-customfilter .custom-filter {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form>
+
+                <center><font size="18">Lista de tareas</font></center>
+                <p:dataTable var="tarea" value="#{TareaBean.tareasEditables}" rows="10"
+                             widgetVar="tareasTable"
+                             emptyMessage="No se encontraron tareas editables"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} resultados"
+                             rowsPerPageTemplate="5,10,{ShowAll|'Todos'}">
+                    <f:facet name="header">
+                        <div class="p-d-flex p-ai-center p-jc-between">
+                            <span>Filtar</span>
+                            <p:inputText id="globalFilter" onkeyup="PF('tareasTable').filter()" style="width:10rem" placeholder="Ingresar" />
+                        </div>
+                    </f:facet>
+                    <p:column headerText="Id Tarea">
+                        <p:commandLink id="nonAjax" action="#{TareaBean.renderTarea}" style="margin-right:20px;" ajax="false">
+                            <f:setPropertyActionListener target="#{TareaBean.tarea}" value="#{tarea}" />
+                            <h:outputText value="#{tarea.idTarea}" />
+                        </p:commandLink>
+                    </p:column>
+                    <p:column headerText="Versión">
+                        <h:outputText value="#{tarea.version}" />
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{tarea.nombre}" />
+                    </p:column>
+                    <p:column headerText="Descripcion">
+                        <h:outputText value="#{tarea.descripcion}" />
+                    </p:column>
+                    <p:column headerText="Observacion">
+                        <h:outputText value="#{tarea.observacion}" />
+                    </p:column>
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{tarea.estado}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandLink id="agregarLineaBase" action="#{TareaBean.crearLineaBase}" style="margin-right:20px;" ajax="false">
+                    <h:outputText value="Agregar"/>
+                </p:commandLink>  
+            </h:form>
+        </div>
+    </h:body>
+</html>
